@@ -1,0 +1,896 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Training Timeline | Payroll Advanced Care</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --coral:        #F45D48;
+      --coral-light:  #FEF0EE;
+      --teal:         #22C5B0;
+      --teal-light:   #EAF9F7;
+      --yellow:       #F5A623;
+      --yellow-light: #FEF8EE;
+      --purple:       #7C5CBF;
+      --purple-light: #F2EEFB;
+      --dark:         #2D2D2D;
+      --mid:          #6B6B6B;
+      --light:        #F9F6F0;
+      --border:       #E0DBD3;
+      --white:        #FFFFFF;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: var(--light);
+      color: var(--dark);
+      min-height: 100vh;
+    }
+
+    /* ── HEADER ── */
+    header {
+      background: var(--white);
+      border-bottom: 1px solid var(--border);
+      padding: 0 2.5rem;
+      height: 58px;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+    .logo {
+      font-size: 1.3rem;
+      font-weight: 800;
+      color: var(--coral);
+      letter-spacing: -0.03em;
+    }
+    .header-divider {
+      width: 1px;
+      height: 20px;
+      background: var(--border);
+    }
+    .header-title {
+      font-size: 0.85rem;
+      color: var(--mid);
+      font-weight: 500;
+    }
+    .header-back {
+      margin-left: auto;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--mid);
+      text-decoration: none;
+      padding: 0.3rem 0.75rem;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      transition: background 0.1s, color 0.1s, border-color 0.1s;
+    }
+    .header-back:hover {
+      background: var(--coral-light);
+      color: var(--coral);
+      border-color: var(--coral);
+    }
+
+    /* ── PAGE HERO ── */
+    .page-hero {
+      background: var(--white);
+      border-bottom: 1px solid var(--border);
+      padding: 2.75rem 2.5rem 2.25rem;
+      text-align: center;
+    }
+    .page-hero .eyebrow {
+      display: inline-block;
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--coral);
+      background: var(--coral-light);
+      border-radius: 20px;
+      padding: 0.3rem 0.9rem;
+      margin-bottom: 0.9rem;
+    }
+    .page-hero h1 {
+      font-size: 1.75rem;
+      font-weight: 800;
+      color: var(--dark);
+      letter-spacing: -0.03em;
+      line-height: 1.2;
+      margin-bottom: 0.6rem;
+    }
+    .page-hero p {
+      font-size: 0.95rem;
+      color: var(--mid);
+      max-width: 520px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+
+    /* ── SUMMARY STATS ── */
+    .summary-stats {
+      display: flex;
+      justify-content: center;
+      gap: 2.5rem;
+      margin-top: 1.75rem;
+      flex-wrap: wrap;
+    }
+    .stat { text-align: center; }
+    .stat-num {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: var(--coral);
+      line-height: 1;
+    }
+    .stat-label {
+      font-size: 0.72rem;
+      color: var(--mid);
+      margin-top: 0.25rem;
+    }
+
+    /* ── TIMELINE WRAP ── */
+    .timeline-wrap {
+      max-width: 820px;
+      margin: 0 auto;
+      padding: 3rem 2rem 4rem;
+    }
+
+    /* ── TIMELINE ── */
+    .timeline {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      position: relative;
+    }
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 110px;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: var(--border);
+      z-index: 0;
+    }
+    .tl-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 0;
+      position: relative;
+      padding-bottom: 2.25rem;
+    }
+    .tl-row:last-child { padding-bottom: 0; }
+
+    .tl-label {
+      width: 95px;
+      padding-top: 0.15rem;
+      text-align: right;
+      flex-shrink: 0;
+    }
+    .tl-label .phase-tag {
+      display: inline-block;
+      font-size: 0.65rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding: 0.2rem 0.55rem;
+      border-radius: 10px;
+    }
+
+    .tl-dot-col {
+      width: 32px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      flex-shrink: 0;
+      padding-top: 0.2rem;
+      z-index: 1;
+    }
+    .tl-dot {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      border: 2.5px solid var(--white);
+      box-shadow: 0 0 0 2px var(--border);
+      flex-shrink: 0;
+    }
+
+    .tl-card {
+      flex: 1;
+      background: var(--white);
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      padding: 1rem 1.25rem;
+      margin-left: 8px;
+    }
+    .tl-card-header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      margin-bottom: 0.7rem;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+    }
+    .tl-card-title {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--dark);
+    }
+    .tl-card-subtitle {
+      font-size: 0.75rem;
+      color: var(--mid);
+      margin-top: 0.1rem;
+      margin-bottom: 0.75rem;
+    }
+    .tl-total-badge {
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 0.2rem 0.65rem;
+      border-radius: 20px;
+      white-space: nowrap;
+    }
+
+    .tl-bars {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+    .tl-bar-item {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.75rem;
+      color: var(--mid);
+      background: var(--light);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 0.3rem 0.65rem;
+    }
+    .tl-bar-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .tl-bar-item strong { color: var(--dark); font-weight: 600; }
+    .tl-bar-item.nesting {
+      background: #F0F4FF;
+      border-color: #C4CFFA;
+      color: #3D5AF1;
+    }
+    .tl-bar-item.nesting strong { color: #3D5AF1; }
+    .tl-nesting-divider {
+      width: 100%;
+      height: 1px;
+      background: var(--border);
+      margin: 0.6rem 0 0.5rem;
+    }
+
+    /* Phase color overrides */
+    .tl-row.p1 .tl-dot { background: var(--coral); box-shadow: 0 0 0 2px var(--coral-light); }
+    .tl-row.p1 .phase-tag { background: var(--coral-light); color: var(--coral); }
+    .tl-row.p1 .tl-total-badge { background: var(--coral-light); color: var(--coral); }
+    .tl-row.p1 .tl-card { border-top: 3px solid var(--coral); }
+
+    .tl-row.p2 .tl-dot { background: var(--teal); box-shadow: 0 0 0 2px var(--teal-light); }
+    .tl-row.p2 .phase-tag { background: var(--teal-light); color: var(--teal); }
+    .tl-row.p2 .tl-total-badge { background: var(--teal-light); color: var(--teal); }
+    .tl-row.p2 .tl-card { border-top: 3px solid var(--teal); }
+
+    .tl-row.p3 .tl-dot { background: var(--yellow); box-shadow: 0 0 0 2px var(--yellow-light); }
+    .tl-row.p3 .phase-tag { background: var(--yellow-light); color: var(--yellow); }
+    .tl-row.p3 .tl-total-badge { background: var(--yellow-light); color: var(--yellow); }
+    .tl-row.p3 .tl-card { border-top: 3px solid var(--yellow); }
+
+    .tl-row.p4 .tl-dot { background: var(--purple); box-shadow: 0 0 0 2px var(--purple-light); }
+    .tl-row.p4 .phase-tag { background: var(--purple-light); color: var(--purple); }
+    .tl-row.p4 .tl-total-badge { background: var(--purple-light); color: var(--purple); }
+    .tl-row.p4 .tl-card { border-top: 3px solid var(--purple); }
+
+    /* ── TOTAL ROW ── */
+    .tl-total-row {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      margin-top: 2rem;
+      padding-top: 1.5rem;
+      border-top: 2px solid var(--border);
+      gap: 0.75rem;
+    }
+    .tl-total-row .total-label {
+      font-size: 0.85rem;
+      color: var(--mid);
+      font-weight: 500;
+    }
+    .tl-total-row .total-value {
+      font-size: 1rem;
+      font-weight: 800;
+      color: var(--dark);
+      background: var(--white);
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      padding: 0.35rem 0.9rem;
+    }
+    .tl-total-row .total-nesting {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: #3D5AF1;
+      background: #F0F4FF;
+      border: 1px solid #C4CFFA;
+      border-radius: 8px;
+      padding: 0.35rem 0.9rem;
+    }
+
+    @media (max-width: 700px) {
+      .timeline::before { left: 80px; }
+      .tl-label { width: 65px; }
+    }
+
+
+    /* ── CALENDAR ── */
+    .cal-section {
+      margin-top: 3.5rem;
+      padding-top: 2.75rem;
+      border-top: 2px solid var(--border);
+    }
+    .cal-heading {
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: var(--dark);
+      margin-bottom: 0.25rem;
+    }
+    .cal-sub {
+      font-size: 0.82rem;
+      color: var(--mid);
+      margin-bottom: 2.25rem;
+      line-height: 1.5;
+    }
+
+    .cal-week { margin-bottom: 1.5rem; }
+    .cal-week:last-child { margin-bottom: 0; }
+
+    .cal-week-label {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      margin-bottom: 0.5rem;
+    }
+    .cal-wk-num {
+      font-size: 0.68rem;
+      font-weight: 700;
+      color: var(--mid);
+      text-transform: uppercase;
+      letter-spacing: 0.09em;
+    }
+    .cal-wk-tag {
+      font-size: 0.68rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      padding: 0.18rem 0.55rem;
+      border-radius: 10px;
+    }
+    .cal-wk-tag.p1    { background: var(--coral-light);  color: var(--coral);  }
+    .cal-wk-tag.p2    { background: var(--teal-light);   color: var(--teal);   }
+    .cal-wk-tag.blend { background: #EDE8F8;              color: #6B3FA0;       }
+    .cal-wk-tag.p3    { background: var(--yellow-light); color: var(--yellow); }
+    .cal-wk-tag.p4    { background: var(--purple-light); color: var(--purple); }
+
+    /* Grid wrapper */
+    .cal-grid {
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    /* Header row */
+    .cal-hdr {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      background: var(--light);
+      border-bottom: 1.5px solid var(--border);
+    }
+    .cal-hd {
+      padding: 0.3rem 0.5rem;
+      font-size: 0.6rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--mid);
+      text-align: center;
+      border-right: 1px solid var(--border);
+    }
+    .cal-hd:last-child { border-right: none; }
+
+    /* Body row */
+    .cal-body {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      height: 220px;
+    }
+
+    /* Day column */
+    .cal-day {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      border-right: 1px solid var(--border);
+      overflow: hidden;
+    }
+    .cal-day:last-child { border-right: none; }
+
+    /* Individual block */
+    .cal-blk {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 0.2rem 0.45rem;
+      gap: 0.03rem;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+    .cal-blk.fill { flex: 1; }
+
+    .cb-icon  { font-size: 0.72rem; line-height: 1; margin-bottom: 0.02rem; }
+    .cb-label {
+      font-size: 0.6rem;
+      font-weight: 700;
+      line-height: 1.2;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .cb-time  { font-size: 0.55rem; opacity: 0.78; line-height: 1.15; }
+    .cb-sub   { font-size: 0.57rem; font-weight: 500; line-height: 1.2; opacity: 0.88; }
+
+    /* Block colour themes */
+    .cal-blk.tr-p1 { background: var(--coral-light);  color: var(--coral);  }
+    .cal-blk.tr-p2 { background: var(--teal-light);   color: var(--teal);   }
+    .cal-blk.tr-p3 { background: var(--yellow-light); color: var(--yellow); }
+    .cal-blk.tr-p4 { background: var(--purple-light); color: var(--purple); }
+
+    .cal-blk.buf  { background: #F2F4F7; color: #5B6678; border-top: 1px solid var(--border); }
+    .cal-blk.qa   { background: #E8EBF0; color: #3D4757; border-top: 1px solid var(--border); }
+    .cal-blk.nest { background: #EEF1FD; color: #3D5AF1; border-top: 1px solid #D5DCFA; }
+
+    /* Blended nesting — soft diagonal stripe */
+    .cal-blk.blend {
+      background: repeating-linear-gradient(
+        -50deg,
+        #EEF1FD 0px, #EEF1FD 9px,
+        #E4F7F5 9px, #E4F7F5 18px
+      );
+      color: #2D5A9E;
+    }
+
+    /* Phase-coloured left accent on Monday training block */
+    .cal-blk.tr-p1 { border-left: 3px solid var(--coral);  }
+    .cal-blk.tr-p2 { border-left: 3px solid var(--teal);   }
+    .cal-blk.tr-p3 { border-left: 3px solid var(--yellow); }
+    .cal-blk.tr-p4 { border-left: 3px solid var(--purple); }
+
+    /* ── FOOTER ── */
+    footer {
+      text-align: center;
+      padding: 1.5rem;
+      font-size: 0.75rem;
+      color: var(--mid);
+      border-top: 1px solid var(--border);
+      background: var(--white);
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="logo">gusto</div>
+  <div class="header-divider"></div>
+  <div class="header-title">Payroll Advanced Care Training Hub</div>
+  <a class="header-back" href="index.html">← Back to Hub</a>
+</header>
+
+<div class="page-hero">
+  <div class="eyebrow">Training Plan</div>
+  <h1>Estimated Training Timeline</h1>
+  <p>Content time + 1 hr buffer + 1 hr Q&amp;A per phase. Phases 1 &amp; 2 include a week of nesting on those case reasons.</p>
+  <div class="summary-stats">
+    <div class="stat"><div class="stat-num">4</div><div class="stat-label">Phases</div></div>
+    <div class="stat"><div class="stat-num">~16 hrs</div><div class="stat-label">Total Structured Time</div></div>
+    <div class="stat"><div class="stat-num">2 wks</div><div class="stat-label">Nesting (Phases 1 &amp; 2)</div></div>
+  </div>
+</div>
+
+<div class="timeline-wrap">
+  <div class="timeline">
+
+    <!-- Phase 1 -->
+    <div class="tl-row p1">
+      <div class="tl-label"><span class="phase-tag">Phase 1</span></div>
+      <div class="tl-dot-col"><div class="tl-dot"></div></div>
+      <div class="tl-card">
+        <div class="tl-card-header">
+          <div>
+            <div class="tl-card-title">Foundations</div>
+            <div class="tl-card-subtitle">Payroll Reversal · Auto Wage Correction · Exempt Taxes</div>
+          </div>
+          <div class="tl-total-badge">3.5 hrs + 1 wk nesting</div>
+        </div>
+        <div class="tl-bars">
+          <div class="tl-bar-item"><div class="tl-bar-dot" style="background:var(--coral)"></div><strong>1.5 hrs</strong>&nbsp;content (3 case reasons)</div>
+          <div class="tl-bar-item"><div class="tl-bar-dot" style="background:#ccc"></div><strong>1 hr</strong>&nbsp;buffer</div>
+          <div class="tl-bar-item"><div class="tl-bar-dot" style="background:#ccc"></div><strong>1 hr</strong>&nbsp;Q&amp;A</div>
+          <div class="tl-nesting-divider"></div>
+          <div class="tl-bar-item nesting"><div class="tl-bar-dot" style="background:#3D5AF1"></div><strong>1 week</strong>&nbsp;nesting on Phase 1 case reasons</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Phase 2 -->
+    <div class="tl-row p2">
+      <div class="tl-label"><span class="phase-tag">Phase 2</span></div>
+      <div class="tl-dot-col"><div class="tl-dot"></div></div>
+      <div class="tl-card">
+        <div class="tl-card-header">
+          <div>
+            <div class="tl-card-title">Tax Corrections</div>
+            <div class="tl-card-subtitle">Non-Gusto Payroll · Tax Reconciliation Payroll · Workers' Comp — WA/WY</div>
+          </div>
+          <div class="tl-total-badge">~3 hrs 45 min + 1 wk nesting</div>
+        </div>
+        <div class="tl-bars">
+          <div class="tl-bar-item"><div class="tl-bar-dot" style="background:var(--teal)"></div><strong>1 hr 45 min</strong>&nbsp;content (3 case reasons + LearnUpon course)</div>
+          <div class="tl-bar-item"><div class="tl-bar-dot" style="background:#ccc"></div><strong>1 hr</strong>&nbsp;buffer</div>
+          <div class="tl-bar-item"><div class="tl-bar-dot" style="background:#ccc"></div><strong>1 hr</strong>&nbsp;Q&amp;A</div>
+          <div class="tl-nesting-divider"></div>
+          <div class="tl-bar-item nesting"><div class="tl-bar-dot" style="background:#3D5AF1"></div><strong>1 week</strong>&nbsp;nesting on Phase 2 case reasons</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Phase 3 -->
+    <div class="tl-row p3">
+      <div class="tl-label"><span class="phase-tag">Phase 3</span></div>
+      <div class="tl-dot-col"><div class="tl-dot"></div></div>
+      <div class="tl-card">
+        <div class="tl-card-header">
+          <div>
+            <div class="tl-card-title">Advanced Compliance</div>
+            <div class="tl-card-subtitle">FEIN Change · Local Taxes · Sales Tax Exempt</div>
+          </div>
+          <div class="tl-total-badge">5 hrs total</div>
+        </div>
+        <div class="tl-bars">
+          <div class="tl-bar-item"><div class="tl-bar-dot" style="background:var(--yellow)"></div><strong>3 hrs</strong>&nbsp;content (3 case reasons incl. 1h 46m FEIN videos)</div>
+          <div class="tl-bar-item"><div class="tl-bar-dot" style="background:#ccc"></div><strong>1 hr</strong>&nbsp;buffer</div>
+          <div class="tl-bar-item"><div class="tl-bar-dot" style="background:#ccc"></div><strong>1 hr</strong>&nbsp;Q&amp;A</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Phase 4 -->
+    <div class="tl-row p4">
+      <div class="tl-label"><span class="phase-tag">Phase 4</span></div>
+      <div class="tl-dot-col"><div class="tl-dot"></div></div>
+      <div class="tl-card">
+        <div class="tl-card-header">
+          <div>
+            <div class="tl-card-title">Specialist Skills</div>
+            <div class="tl-card-subtitle">Manual Wage Correction · Minister Housing</div>
+          </div>
+          <div class="tl-total-badge">~3 hrs 20 min total</div>
+        </div>
+        <div class="tl-bars">
+          <div class="tl-bar-item"><div class="tl-bar-dot" style="background:var(--purple)"></div><strong>1 hr 20 min</strong>&nbsp;content (2 case reasons + LearnUpon course)</div>
+          <div class="tl-bar-item"><div class="tl-bar-dot" style="background:#ccc"></div><strong>1 hr</strong>&nbsp;buffer</div>
+          <div class="tl-bar-item"><div class="tl-bar-dot" style="background:#ccc"></div><strong>1 hr</strong>&nbsp;Q&amp;A</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+
+  <!-- CALENDAR -->
+  <div class="cal-section">
+    <div class="cal-heading">Training Calendar</div>
+    <div class="cal-sub">Mondays are structured training days (training · buffer · Q&amp;A) with remaining time for nesting.<br>Tuesday–Friday each week are fully dedicated to nesting on that phase's case reasons.</div>
+
+    <div class="cal-week">
+      <div class="cal-week-label">
+        <span class="cal-wk-num">Week 1</span>
+        <span class="cal-wk-tag p1">Phase 1 — Foundations</span>
+      </div>
+      <div class="cal-grid">
+        <div class="cal-hdr">
+          <div class="cal-hd">Mon</div>
+          <div class="cal-hd">Tue</div>
+          <div class="cal-hd">Wed</div>
+          <div class="cal-hd">Thu</div>
+          <div class="cal-hd">Fri</div>
+        </div>
+        <div class="cal-body">
+          <div class="cal-day">
+            <div class="cal-blk tr-p1" style="flex:1.5">
+              <span class="cb-icon">📚</span>
+              <span class="cb-label">Training</span>
+              <span class="cb-time">1.5 hrs · 3 case reasons</span>
+            </div>
+            <div class="cal-blk buf" style="flex:1">
+              <span class="cb-label">🛡 Buffer</span>
+              <span class="cb-time">1 hr</span>
+            </div>
+            <div class="cal-blk qa" style="flex:1">
+              <span class="cb-label">💬 Q&amp;A</span>
+              <span class="cb-time">1 hr</span>
+            </div>
+            <div class="cal-blk nest" style="flex:4.5">
+              <span class="cb-icon">🔄</span>
+              <span class="cb-label">Nesting</span>
+              <span class="cb-time">4.5 hrs remaining</span>
+            </div>
+          </div>
+          <div class="cal-day">
+            <div class="cal-blk nest fill">
+              <span class="cb-icon">🔄</span>
+              <span class="cb-label">Nesting</span>
+              <span class="cb-sub">Phase 1</span>
+              <span class="cb-sub">case reasons</span>
+            </div>
+          </div>
+          <div class="cal-day">
+            <div class="cal-blk nest fill">
+              <span class="cb-icon">🔄</span>
+              <span class="cb-label">Nesting</span>
+              <span class="cb-sub">Phase 1</span>
+              <span class="cb-sub">case reasons</span>
+            </div>
+          </div>
+          <div class="cal-day">
+            <div class="cal-blk nest fill">
+              <span class="cb-icon">🔄</span>
+              <span class="cb-label">Nesting</span>
+              <span class="cb-sub">Phase 1</span>
+              <span class="cb-sub">case reasons</span>
+            </div>
+          </div>
+          <div class="cal-day">
+            <div class="cal-blk nest fill">
+              <span class="cb-icon">🔄</span>
+              <span class="cb-label">Nesting</span>
+              <span class="cb-sub">Phase 1</span>
+              <span class="cb-sub">case reasons</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="cal-week">
+      <div class="cal-week-label">
+        <span class="cal-wk-num">Week 2</span>
+        <span class="cal-wk-tag p2">Phase 2 — Tax Corrections</span>
+      </div>
+      <div class="cal-grid">
+        <div class="cal-hdr">
+          <div class="cal-hd">Mon</div>
+          <div class="cal-hd">Tue</div>
+          <div class="cal-hd">Wed</div>
+          <div class="cal-hd">Thu</div>
+          <div class="cal-hd">Fri</div>
+        </div>
+        <div class="cal-body">
+          <div class="cal-day">
+            <div class="cal-blk tr-p2" style="flex:1.75">
+              <span class="cb-icon">📚</span>
+              <span class="cb-label">Training</span>
+              <span class="cb-time">1 hr 45 min · 3 case reasons</span>
+            </div>
+            <div class="cal-blk buf" style="flex:1">
+              <span class="cb-label">🛡 Buffer</span>
+              <span class="cb-time">1 hr</span>
+            </div>
+            <div class="cal-blk qa" style="flex:1">
+              <span class="cb-label">💬 Q&amp;A</span>
+              <span class="cb-time">1 hr</span>
+            </div>
+            <div class="cal-blk nest" style="flex:4.25">
+              <span class="cb-icon">🔄</span>
+              <span class="cb-label">Nesting</span>
+              <span class="cb-time">4 hrs 15 min remaining</span>
+            </div>
+          </div>
+          <div class="cal-day">
+            <div class="cal-blk blend fill">
+              <span class="cb-icon">🔄</span>
+              <span class="cb-label">Blended Nesting</span>
+              <span class="cb-sub">Phase 1 &amp; 2</span>
+              <span class="cb-sub">case reasons</span>
+            </div>
+          </div>
+          <div class="cal-day">
+            <div class="cal-blk blend fill">
+              <span class="cb-icon">🔄</span>
+              <span class="cb-label">Blended Nesting</span>
+              <span class="cb-sub">Phase 1 &amp; 2</span>
+              <span class="cb-sub">case reasons</span>
+            </div>
+          </div>
+          <div class="cal-day">
+            <div class="cal-blk blend fill">
+              <span class="cb-icon">🔄</span>
+              <span class="cb-label">Blended Nesting</span>
+              <span class="cb-sub">Phase 1 &amp; 2</span>
+              <span class="cb-sub">case reasons</span>
+            </div>
+          </div>
+          <div class="cal-day">
+            <div class="cal-blk blend fill">
+              <span class="cb-icon">🔄</span>
+              <span class="cb-label">Blended Nesting</span>
+              <span class="cb-sub">Phase 1 &amp; 2</span>
+              <span class="cb-sub">case reasons</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="cal-week">
+      <div class="cal-week-label">
+        <span class="cal-wk-num">Week 3</span>
+        <span class="cal-wk-tag p3">Phase 3 — Advanced Compliance</span>
+      </div>
+      <div class="cal-grid">
+        <div class="cal-hdr">
+          <div class="cal-hd">Mon</div>
+          <div class="cal-hd">Tue</div>
+          <div class="cal-hd">Wed</div>
+          <div class="cal-hd">Thu</div>
+          <div class="cal-hd">Fri</div>
+        </div>
+        <div class="cal-body">
+          <div class="cal-day">
+            <div class="cal-blk tr-p3" style="flex:3">
+              <span class="cb-icon">📚</span>
+              <span class="cb-label">Training</span>
+              <span class="cb-time">3 hrs · incl. 1h 46m FEIN videos</span>
+            </div>
+            <div class="cal-blk buf" style="flex:1">
+              <span class="cb-label">🛡 Buffer</span>
+              <span class="cb-time">1 hr</span>
+            </div>
+            <div class="cal-blk qa" style="flex:1">
+              <span class="cb-label">💬 Q&amp;A</span>
+              <span class="cb-time">1 hr</span>
+            </div>
+            <div class="cal-blk nest" style="flex:3">
+              <span class="cb-icon">🔄</span>
+              <span class="cb-label">Nesting</span>
+              <span class="cb-time">3 hrs remaining</span>
+            </div>
+          </div>
+          <div class="cal-day">
+            <div class="cal-blk nest fill">
+              <span class="cb-icon">🔄</span>
+              <span class="cb-label">Nesting</span>
+              <span class="cb-sub">Phase 3</span>
+              <span class="cb-sub">case reasons</span>
+            </div>
+          </div>
+          <div class="cal-day">
+            <div class="cal-blk nest fill">
+              <span class="cb-icon">🔄</span>
+              <span class="cb-label">Nesting</span>
+              <span class="cb-sub">Phase 3</span>
+              <span class="cb-sub">case reasons</span>
+            </div>
+          </div>
+          <div class="cal-day">
+            <div class="cal-blk nest fill">
+              <span class="cb-icon">🔄</span>
+              <span class="cb-label">Nesting</span>
+              <span class="cb-sub">Phase 3</span>
+              <span class="cb-sub">case reasons</span>
+            </div>
+          </div>
+          <div class="cal-day">
+            <div class="cal-blk nest fill">
+              <span class="cb-icon">🔄</span>
+              <span class="cb-label">Nesting</span>
+              <span class="cb-sub">Phase 3</span>
+              <span class="cb-sub">case reasons</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="cal-week">
+      <div class="cal-week-label">
+        <span class="cal-wk-num">Week 4</span>
+        <span class="cal-wk-tag p4">Phase 4 — Specialist Skills</span>
+      </div>
+      <div class="cal-grid">
+        <div class="cal-hdr">
+          <div class="cal-hd">Mon</div>
+          <div class="cal-hd">Tue</div>
+          <div class="cal-hd">Wed</div>
+          <div class="cal-hd">Thu</div>
+          <div class="cal-hd">Fri</div>
+        </div>
+        <div class="cal-body">
+          <div class="cal-day">
+            <div class="cal-blk tr-p4" style="flex:1.34">
+              <span class="cb-icon">📚</span>
+              <span class="cb-label">Training</span>
+              <span class="cb-time">1 hr 20 min · 2 case reasons</span>
+            </div>
+            <div class="cal-blk buf" style="flex:1">
+              <span class="cb-label">🛡 Buffer</span>
+              <span class="cb-time">1 hr</span>
+            </div>
+            <div class="cal-blk qa" style="flex:1">
+              <span class="cb-label">💬 Q&amp;A</span>
+              <span class="cb-time">1 hr</span>
+            </div>
+            <div class="cal-blk nest" style="flex:4.66">
+              <span class="cb-icon">🔄</span>
+              <span class="cb-label">Nesting</span>
+              <span class="cb-time">4 hrs 40 min remaining</span>
+            </div>
+          </div>
+          <div class="cal-day">
+            <div class="cal-blk nest fill">
+              <span class="cb-icon">🔄</span>
+              <span class="cb-label">Nesting</span>
+              <span class="cb-sub">Phase 4</span>
+              <span class="cb-sub">case reasons</span>
+            </div>
+          </div>
+          <div class="cal-day">
+            <div class="cal-blk nest fill">
+              <span class="cb-icon">🔄</span>
+              <span class="cb-label">Nesting</span>
+              <span class="cb-sub">Phase 4</span>
+              <span class="cb-sub">case reasons</span>
+            </div>
+          </div>
+          <div class="cal-day">
+            <div class="cal-blk nest fill">
+              <span class="cb-icon">🔄</span>
+              <span class="cb-label">Nesting</span>
+              <span class="cb-sub">Phase 4</span>
+              <span class="cb-sub">case reasons</span>
+            </div>
+          </div>
+          <div class="cal-day">
+            <div class="cal-blk nest fill">
+              <span class="cb-icon">🔄</span>
+              <span class="cb-label">Nesting</span>
+              <span class="cb-sub">Phase 4</span>
+              <span class="cb-sub">case reasons</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOTAL -->
+  <div class="tl-total-row">
+    <span class="total-label">Total structured time</span>
+    <span class="total-value">~16 hrs</span>
+    <span class="total-nesting">+ 2 weeks nesting</span>
+  </div>
+</div>
+
+<footer>
+  Payroll Advanced Care Training · Confidential — Internal Use Only
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Payroll Advanced Care Training Hub</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --coral:        #F45D48;
+      --coral-light:  #FEF0EE;
+      --teal:         #22C5B0;
+      --teal-light:   #EAF9F7;
+      --yellow:       #F5A623;
+      --yellow-light: #FEF8EE;
+      --purple:       #7C5CBF;
+      --purple-light: #F2EEFB;
+      --dark:         #2D2D2D;
+      --mid:          #6B6B6B;
+      --light:        #F9F6F0;
+      --border:       #E0DBD3;
+      --white:        #FFFFFF;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: var(--light);
+      color: var(--dark);
+      min-height: 100vh;
+    }
+
+    /* ── HEADER ── */
+    header {
+      background: var(--white);
+      border-bottom: 1px solid var(--border);
+      padding: 0 2.5rem;
+      height: 58px;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+    .logo {
+      font-size: 1.3rem;
+      font-weight: 800;
+      color: var(--coral);
+      letter-spacing: -0.03em;
+    }
+    .header-divider {
+      width: 1px;
+      height: 20px;
+      background: var(--border);
+    }
+    .header-title {
+      font-size: 0.85rem;
+      color: var(--mid);
+      font-weight: 500;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      background: var(--white);
+      border-bottom: 1px solid var(--border);
+      padding: 3.5rem 2.5rem 3rem;
+      text-align: center;
+    }
+    .hero-eyebrow {
+      display: inline-block;
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--coral);
+      background: var(--coral-light);
+      border-radius: 20px;
+      padding: 0.3rem 0.9rem;
+      margin-bottom: 1.1rem;
+    }
+    .hero h1 {
+      font-size: 2.1rem;
+      font-weight: 800;
+      color: var(--dark);
+      letter-spacing: -0.03em;
+      line-height: 1.2;
+      max-width: 680px;
+      margin: 0 auto 0.9rem;
+    }
+    .hero p {
+      font-size: 1rem;
+      color: var(--mid);
+      max-width: 540px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+
+    /* ── STATS ROW ── */
+    .stats {
+      display: flex;
+      justify-content: center;
+      gap: 2.5rem;
+      margin-top: 2rem;
+      flex-wrap: wrap;
+    }
+    .stat {
+      text-align: center;
+    }
+    .stat-num {
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: var(--coral);
+      line-height: 1;
+    }
+    .stat-label {
+      font-size: 0.75rem;
+      color: var(--mid);
+      margin-top: 0.25rem;
+    }
+
+    /* ── PHASES GRID ── */
+    .phases-wrap {
+      max-width: 1060px;
+      margin: 0 auto;
+      padding: 3rem 2rem 4rem;
+    }
+    .phases-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.5rem;
+    }
+    @media (max-width: 700px) {
+      .phases-grid { grid-template-columns: 1fr; }
+      .hero h1 { font-size: 1.5rem; }
+    }
+
+    /* ── PHASE CARD ── */
+    .phase-card {
+      background: var(--white);
+      border: 1.5px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      transition: box-shadow 0.15s, transform 0.15s;
+    }
+    .phase-card:hover {
+      box-shadow: 0 6px 24px rgba(0,0,0,0.09);
+      transform: translateY(-2px);
+    }
+    .phase-header {
+      padding: 1.25rem 1.5rem 1rem;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+    }
+    .phase-badge {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      font-weight: 800;
+      flex-shrink: 0;
+    }
+    .phase-info {}
+    .phase-label {
+      font-size: 0.65rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 0.15rem;
+    }
+    .phase-name {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--dark);
+    }
+    .phase-count {
+      margin-left: auto;
+      font-size: 0.7rem;
+      color: var(--mid);
+      background: var(--light);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 0.2rem 0.6rem;
+      white-space: nowrap;
+    }
+
+    /* Phase color themes */
+    .phase-card.p1 .phase-badge { background: var(--coral-light); color: var(--coral); }
+    .phase-card.p1 .phase-label { color: var(--coral); }
+    .phase-card.p2 .phase-badge { background: var(--teal-light); color: var(--teal); }
+    .phase-card.p2 .phase-label { color: var(--teal); }
+    .phase-card.p3 .phase-badge { background: var(--yellow-light); color: var(--yellow); }
+    .phase-card.p3 .phase-label { color: var(--yellow); }
+    .phase-card.p4 .phase-badge { background: var(--purple-light); color: var(--purple); }
+    .phase-card.p4 .phase-label { color: var(--purple); }
+
+    /* Module list */
+    .module-list {
+      padding: 0.5rem 0;
+    }
+    .module-link {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.7rem 1.5rem;
+      text-decoration: none;
+      color: var(--dark);
+      border-left: 3px solid transparent;
+      transition: background 0.1s, border-color 0.1s;
+    }
+    .module-link:hover {
+      background: var(--light);
+    }
+    .module-link.placeholder {
+      opacity: 0.45;
+      cursor: default;
+      pointer-events: none;
+    }
+    .module-num {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: var(--light);
+      border: 1.5px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.65rem;
+      font-weight: 700;
+      color: var(--mid);
+      flex-shrink: 0;
+    }
+    .module-title-text {
+      font-size: 0.88rem;
+      font-weight: 500;
+      flex: 1;
+    }
+    .coming-soon {
+      font-size: 0.65rem;
+      color: var(--mid);
+      background: var(--light);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 0.15rem 0.5rem;
+    }
+    .arrow {
+      font-size: 0.75rem;
+      color: var(--border);
+      transition: color 0.1s;
+    }
+    .module-link:not(.placeholder):hover .arrow {
+      color: var(--mid);
+    }
+
+    /* Warning icon + tooltip */
+    .warn-wrap {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      flex-shrink: 0;
+    }
+    .warn-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: #FEF3CD;
+      border: 1.5px solid #F5A623;
+      color: #c47d00;
+      font-size: 0.6rem;
+      font-weight: 800;
+      cursor: default;
+      flex-shrink: 0;
+      line-height: 1;
+    }
+    .warn-tooltip {
+      display: none;
+      position: absolute;
+      bottom: calc(100% + 7px);
+      right: 0;
+      background: #2D2D2D;
+      color: #fff;
+      font-size: 0.72rem;
+      font-weight: 500;
+      line-height: 1.4;
+      padding: 0.45rem 0.7rem;
+      border-radius: 6px;
+      white-space: nowrap;
+      max-width: 240px;
+      white-space: normal;
+      z-index: 100;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.18);
+      pointer-events: none;
+    }
+    .warn-tooltip::after {
+      content: '';
+      position: absolute;
+      top: 100%;
+      right: 6px;
+      border: 5px solid transparent;
+      border-top-color: #2D2D2D;
+    }
+    .warn-wrap:hover .warn-tooltip,
+    .warn-wrap:focus-within .warn-tooltip {
+      display: block;
+    }
+
+    /* Phase color left-border on hover */
+    .phase-card.p1 .module-link:not(.placeholder):hover { border-left-color: var(--coral); }
+    .phase-card.p2 .module-link:not(.placeholder):hover { border-left-color: var(--teal); }
+    .phase-card.p3 .module-link:not(.placeholder):hover { border-left-color: var(--yellow); }
+    .phase-card.p4 .module-link:not(.placeholder):hover { border-left-color: var(--purple); }
+
+    /* Phase "Start Phase" CTA */
+    .phase-footer {
+      padding: 0.9rem 1.5rem;
+      border-top: 1px solid var(--border);
+      background: var(--light);
+    }
+    .start-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-decoration: none;
+      padding: 0.45rem 1rem;
+      border-radius: 6px;
+      transition: opacity 0.15s;
+    }
+    .start-btn:hover { opacity: 0.85; }
+    .phase-card.p1 .start-btn { background: var(--coral); color: white; }
+    .phase-card.p2 .start-btn { background: var(--teal); color: white; }
+    .phase-card.p3 .start-btn { background: var(--yellow); color: white; }
+    .phase-card.p4 .start-btn { background: var(--purple); color: white; }
+
+    /* ── TIMELINE CTA ── */
+    .timeline-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      margin-top: 1.5rem;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--coral);
+      background: var(--coral-light);
+      border: 1.5px solid #f7bdb5;
+      border-radius: 8px;
+      padding: 0.5rem 1.1rem;
+      text-decoration: none;
+      transition: background 0.15s, border-color 0.15s;
+    }
+    .timeline-cta:hover {
+      background: #fde0dc;
+      border-color: var(--coral);
+    }
+
+    /* ── TIMELINE ── */
+    .timeline-wrap {
+      max-width: 1060px;
+      margin: 0 auto;
+      padding: 0 2rem 4rem;
+    }
+    .timeline-heading {
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: var(--dark);
+      margin-bottom: 0.3rem;
+    }
+    .timeline-sub {
+      font-size: 0.85rem;
+      color: var(--mid);
+      margin-bottom: 2rem;
+    }
+    .timeline {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      position: relative;
+    }
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 110px;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: var(--border);
+      z-index: 0;
+    }
+    .tl-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 0;
+      position: relative;
+      padding-bottom: 2rem;
+    }
+    .tl-row:last-child { padding-bottom: 0; }
+    .tl-label {
+      width: 95px;
+      padding-top: 0.15rem;
+      text-align: right;
+      flex-shrink: 0;
+    }
+    .tl-label .phase-tag {
+      display: inline-block;
+      font-size: 0.65rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding: 0.2rem 0.55rem;
+      border-radius: 10px;
+    }
+    .tl-dot-col {
+      width: 32px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      flex-shrink: 0;
+      padding-top: 0.2rem;
+      z-index: 1;
+    }
+    .tl-dot {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      border: 2.5px solid var(--white);
+      box-shadow: 0 0 0 2px var(--border);
+      flex-shrink: 0;
+    }
+    .tl-card {
+      flex: 1;
+      background: var(--white);
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      padding: 1rem 1.25rem;
+      margin-left: 8px;
+    }
+    .tl-card-header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      margin-bottom: 0.6rem;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+    }
+    .tl-card-title {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--dark);
+    }
+    .tl-total-badge {
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 0.2rem 0.65rem;
+      border-radius: 20px;
+      white-space: nowrap;
+    }
+    .tl-bars {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+    .tl-bar-item {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.75rem;
+      color: var(--mid);
+      background: var(--light);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 0.3rem 0.65rem;
+    }
+    .tl-bar-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .tl-bar-item strong { color: var(--dark); font-weight: 600; }
+    .tl-bar-item.nesting {
+      background: #F0F4FF;
+      border-color: #C4CFFA;
+      color: #3D5AF1;
+    }
+    .tl-bar-item.nesting strong { color: #3D5AF1; }
+    .tl-nesting-divider {
+      width: 100%;
+      height: 1px;
+      background: var(--border);
+      margin: 0.6rem 0 0.5rem;
+    }
+
+    /* Phase color overrides for timeline */
+    .tl-row.p1 .tl-dot { background: var(--coral); box-shadow: 0 0 0 2px var(--coral-light); }
+    .tl-row.p1 .phase-tag { background: var(--coral-light); color: var(--coral); }
+    .tl-row.p1 .tl-total-badge { background: var(--coral-light); color: var(--coral); }
+    .tl-row.p2 .tl-dot { background: var(--teal); box-shadow: 0 0 0 2px var(--teal-light); }
+    .tl-row.p2 .phase-tag { background: var(--teal-light); color: var(--teal); }
+    .tl-row.p2 .tl-total-badge { background: var(--teal-light); color: var(--teal); }
+    .tl-row.p3 .tl-dot { background: var(--yellow); box-shadow: 0 0 0 2px var(--yellow-light); }
+    .tl-row.p3 .phase-tag { background: var(--yellow-light); color: var(--yellow); }
+    .tl-row.p3 .tl-total-badge { background: var(--yellow-light); color: var(--yellow); }
+    .tl-row.p4 .tl-dot { background: var(--purple); box-shadow: 0 0 0 2px var(--purple-light); }
+    .tl-row.p4 .phase-tag { background: var(--purple-light); color: var(--purple); }
+    .tl-row.p4 .tl-total-badge { background: var(--purple-light); color: var(--purple); }
+
+    @media (max-width: 700px) {
+      .timeline::before { left: 80px; }
+      .tl-label { width: 65px; }
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      text-align: center;
+      padding: 1.5rem;
+      font-size: 0.75rem;
+      color: var(--mid);
+      border-top: 1px solid var(--border);
+      background: var(--white);
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="logo">gusto</div>
+  <div class="header-divider"></div>
+  <div class="header-title">Payroll Advanced Care Training Hub</div>
+</header>
+
+<div class="hero">
+  <div class="hero-eyebrow">Advanced Care · Payroll Specialist Track</div>
+  <h1>Payroll Advanced Care Training Hub</h1>
+  <p>Master the 11 payroll case reasons across four progressive phases. Complete each phase in order before moving to the next.</p>
+  <div class="stats">
+    <div class="stat"><div class="stat-num">4</div><div class="stat-label">Phases</div></div>
+    <div class="stat"><div class="stat-num">11</div><div class="stat-label">Case Reasons</div></div>
+    <div class="stat"><div class="stat-num">~6 hrs</div><div class="stat-label">Est. Content Time</div></div>
+  </div>
+  <a class="timeline-cta" href="training-timeline.html">📅 View Training Timeline →</a>
+</div>
+
+<div class="phases-wrap">
+  <div class="phases-grid">
+
+    <!-- PHASE 1 -->
+    <div class="phase-card p1">
+      <div class="phase-header">
+        <div class="phase-badge">1</div>
+        <div class="phase-info">
+          <div class="phase-label">Phase 1</div>
+          <div class="phase-name">Foundations</div>
+        </div>
+        <div class="phase-count">3 case reasons</div>
+      </div>
+      <div class="module-list">
+        <a class="module-link" href="payroll-training.html?phase=1&m=0">
+          <div class="module-num">1</div>
+          <div class="module-title-text">Payroll Reversal</div>
+          <span class="arrow">›</span>
+        </a>
+        <a class="module-link" href="payroll-training.html?phase=1&m=1">
+          <div class="module-num">2</div>
+          <div class="module-title-text">Auto Wage Correction / Backdated Address Change</div>
+          <span class="arrow">›</span>
+        </a>
+        <a class="module-link" href="payroll-training.html?phase=1&m=2">
+          <div class="module-num">3</div>
+          <div class="module-title-text">Exempt Taxes</div>
+          <span class="arrow">›</span>
+        </a>
+      </div>
+      <div class="phase-footer">
+        <a class="start-btn" href="payroll-training.html?phase=1&m=0">Start Phase 1 →</a>
+      </div>
+    </div>
+
+    <!-- PHASE 2 -->
+    <div class="phase-card p2">
+      <div class="phase-header">
+        <div class="phase-badge">2</div>
+        <div class="phase-info">
+          <div class="phase-label">Phase 2</div>
+          <div class="phase-name">Tax Corrections</div>
+        </div>
+        <div class="phase-count">3 case reasons</div>
+      </div>
+      <div class="module-list">
+        <a class="module-link" href="payroll-training.html?phase=2&m=3">
+          <div class="module-num">4</div>
+          <div class="module-title-text">Non-Gusto Payroll</div>
+          <span class="arrow">›</span>
+        </a>
+        <a class="module-link" href="payroll-training.html?phase=2&m=5">
+          <div class="module-num">5</div>
+          <div class="module-title-text">Tax Reconciliation Payroll</div>
+          <span class="arrow">›</span>
+        </a>
+        <a class="module-link" href="payroll-training.html?phase=2&m=6">
+          <div class="module-num">6</div>
+          <div class="module-title-text">Workers' Comp — WA/WY</div>
+          <div class="warn-wrap"><span class="warn-icon">!</span><div class="warn-tooltip">Pending Internal Alignment</div></div>
+          <span class="arrow">›</span>
+        </a>
+      </div>
+      <div class="phase-footer">
+        <a class="start-btn" href="payroll-training.html?phase=2&m=3">Start Phase 2 →</a>
+      </div>
+    </div>
+
+    <!-- PHASE 3 -->
+    <div class="phase-card p3">
+      <div class="phase-header">
+        <div class="phase-badge">3</div>
+        <div class="phase-info">
+          <div class="phase-label">Phase 3</div>
+          <div class="phase-name">Advanced Compliance</div>
+        </div>
+        <div class="phase-count">3 case reasons</div>
+      </div>
+      <div class="module-list">
+        <a class="module-link" href="payroll-training.html?phase=3&m=7">
+          <div class="module-num">7</div>
+          <div class="module-title-text">FEIN Change</div>
+          <div class="warn-wrap"><span class="warn-icon">!</span><div class="warn-tooltip">High Error Risk</div></div>
+          <span class="arrow">›</span>
+        </a>
+        <a class="module-link" href="payroll-training.html?phase=3&m=8">
+          <div class="module-num">8</div>
+          <div class="module-title-text">Local Taxes</div>
+          <div class="warn-wrap"><span class="warn-icon">!</span><div class="warn-tooltip">Requires Symmetry; some states are really tricky</div></div>
+          <span class="arrow">›</span>
+        </a>
+        <a class="module-link" href="payroll-training.html?phase=3&m=9">
+          <div class="module-num">9</div>
+          <div class="module-title-text">Sales Tax Exempt</div>
+          <div class="warn-wrap"><span class="warn-icon">!</span><div class="warn-tooltip">Limited licenses in Avalara — tricky to unlock</div></div>
+          <span class="arrow">›</span>
+        </a>
+      </div>
+      <div class="phase-footer">
+        <a class="start-btn" href="payroll-training.html?phase=3&m=7">Start Phase 3 →</a>
+      </div>
+    </div>
+
+    <!-- PHASE 4 -->
+    <div class="phase-card p4">
+      <div class="phase-header">
+        <div class="phase-badge">4</div>
+        <div class="phase-info">
+          <div class="phase-label">Phase 4</div>
+          <div class="phase-name">Specialist Skills</div>
+        </div>
+        <div class="phase-count">2 case reasons</div>
+      </div>
+      <div class="module-list">
+        <a class="module-link" href="payroll-training.html?phase=4&m=10">
+          <div class="module-num">10</div>
+          <div class="module-title-text">Manual Wage Correction</div>
+          <div class="warn-wrap"><span class="warn-icon">!</span><div class="warn-tooltip">High Error Risk</div></div>
+          <span class="arrow">›</span>
+        </a>
+        <a class="module-link" href="payroll-training.html?phase=4&m=11">
+          <div class="module-num">11</div>
+          <div class="module-title-text">Minister Housing</div>
+          <div class="warn-wrap"><span class="warn-icon">!</span><div class="warn-tooltip">Involves MWC</div></div>
+          <span class="arrow">›</span>
+        </a>
+      </div>
+      <div class="phase-footer">
+        <a class="start-btn" href="payroll-training.html?phase=4&m=10">Start Phase 4 →</a>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<footer>
+  Payroll Advanced Care Training · Confidential — Internal Use Only
+</footer>
+
+</body>
+</html>
