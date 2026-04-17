@@ -615,6 +615,16 @@
     .quiz-score-denom { font-size: 12px; color: var(--gusto-mid); }
     .quiz-results h3 { font-size: 20px; font-weight: 700; margin-bottom: 8px; }
     .quiz-results p { font-size: 14px; color: var(--gusto-mid); margin-bottom: 24px; line-height: 1.6; }
+    .quiz-hub-btn {
+      background: var(--gusto-coral); color: white;
+      border: none; border-radius: 8px;
+      padding: 10px 24px; font-size: 14px; font-weight: 600;
+      cursor: pointer; transition: background 0.15s;
+      margin-bottom: 12px;
+      display: block;
+      width: 100%;
+    }
+    .quiz-hub-btn:hover { background: #d94c38; }
     .quiz-restart-btn {
       background: var(--gusto-teal); color: white;
       border: none; border-radius: 8px;
@@ -786,8 +796,8 @@
           <thead><tr><th></th><th>Cancel</th><th>Reverse</th></tr></thead>
           <tbody>
             <tr><td><strong>When to use</strong></td><td>Before debits are initiated (before 4pm CT / NACHA not yet created)</td><td>After debits have been initiated</td></tr>
-            <tr><td><strong>What happens</strong></td><td>Original payroll deleted from Panda; data saved for admin to correct; cancels for ALL employees</td><td>Original stays on backend; new "reversed" payroll created; can target all OR select employees</td></tr>
-            <tr><td><strong>Who can do it</strong></td><td>Admin can cancel in-app — encourage them to do so if possible</td><td>Gustie in Panda, or admin in-app (as of 2023)</td></tr>
+            <tr><td><strong>What happens</strong></td><td>Canceled payrolls are <strong>not</strong> deleted from Panda — they move to the <strong>Unfunded</strong> section of Employee Payrolls, where they can be fully deleted if necessary (e.g. system bug resolutions). The admin can still make edits and reprocess from there.</td><td>Original stays on backend; new "reversed" payroll created; can target all OR select employees</td></tr>
+            <tr><td><strong>Who can do it</strong></td><td>Admin can cancel in-app — always encourage self-serve first. Agents can also cancel in Panda. Note: there is a brief window where canceling is unavailable in-app due to cutoff times, but remains available in Panda. Check the Actions drop-down to confirm which options are live.</td><td>Gustie in Panda, or admin in-app (as of 2023)</td></tr>
           </tbody>
         </table>
         <div class="alert tip">
@@ -799,10 +809,10 @@
       <div class="section">
         <div class="section-title">Before Reversing — Ask These 4 Questions</div>
         <div class="card-grid">
-          <div class="card coral"><h4>⏰ WHEN are we reversing?</h4><strong>Before check date:</strong> Fine to pull funds.<br><strong>After check date, &lt;5 days:</strong> Can still pull funds.<br><strong>&gt;5 days after check date:</strong> Cannot legally pull funds (but can still reverse the payroll).</div>
+          <div class="card coral"><h4>⏰ WHEN are we reversing?</h4><strong>Before check date:</strong> Fine to pull funds.<br><strong>After check date, &lt;5 business days:</strong> Can still pull funds.<br><strong>&gt;5 business days after check date:</strong> Cannot legally pull funds (but can still reverse the payroll).</div>
           <div class="card teal"><h4>👤 WHO are we reversing?</h4>Confirm employee names. Can reverse the entire payroll OR just select employees. You must reverse the entire paycheck — not just the overpaid portion.</div>
           <div class="card yellow"><h4>📋 WHAT are we reversing?</h4><strong>Net Pay &amp; Taxes:</strong> Full reversal — pulls back wages and tax reporting entirely.<br><strong>Just Net Pay:</strong> Convert to check — changes payment method from DD to check.</div>
-          <div class="card purple"><h4>📊 Guideline 401(k)?</h4><strong>Before check date:</strong> Reverse without looping in Guideline.<br><strong>After check date:</strong> Must email Guideline at clients@guideline.com.</div>
+          <div class="card purple"><h4>📊 Guideline 401(k)?</h4><strong>Before check date:</strong> Reverse without looping in Guideline.<br><strong>After check date:</strong> Written approval from Guideline is required <em>before</em> processing the reversal — email clients@guideline.com. Note: approval is not always guaranteed (e.g. Guideline may decline for FIT withholding elections).</div>
         </div>
       </div>
 
@@ -830,7 +840,7 @@
           <li><div class="step-num">1</div><div class="step-body">Go to "Most Recent Payrolls" and select the check date you are reversing</div></li>
           <li><div class="step-num">2</div><div class="step-body">Click Actions dropdown → Select "Reverse Payroll"</div></li>
           <li><div class="step-num">3</div><div class="step-body">Select "Reverse Entire Payroll" OR select specific employees</div></li>
-          <li><div class="step-num">4</div><div class="step-body">Choose whether to select "Pull Employee Funds" (requires admin's written consent; NACHA takes 5 business days)</div></li>
+          <li><div class="step-num">4</div><div class="step-body">Choose whether to select "Pull Employee Funds" (requires admin's written consent; NACHA takes 5 business days). <strong>Exception:</strong> if it is after the debit date but before the check date, pool funds must be selected — explicit admin approval is not required in this window as no other option is available.</div></li>
           <li><div class="step-num">5</div><div class="step-body">Leave notes — include the case number and reason for reversal</div></li>
           <li><div class="step-num">6</div><div class="step-body">Click "Create Payroll Reversal"</div></li>
           <li><div class="step-num">7</div><div class="step-body"><strong>Approve the reversal — must be done the same day!</strong></div></li>
@@ -857,7 +867,7 @@
         <div class="section-title">Reversing Contractor Payments (4 Steps)</div>
         <ul class="steps">
           <li><div class="step-num">1</div><div class="step-body">Open the check date → Actions menu → "Reverse Contractor Payment"</div></li>
-          <li><div class="step-num">2</div><div class="step-body">Enter a reason, select "Pull Funds," click "Create Contractor Payment Reversal"</div></li>
+          <li><div class="step-num">2</div><div class="step-body">Enter a reason and click "Create Contractor Payment Reversal." <strong>Before check date:</strong> payroll funds must be selected (same as a payroll reversal). <strong>After check date:</strong> Gusto is not authorized to reverse funds from a contractor — do not attempt to pull funds.</div></li>
           <li><div class="step-num">3</div><div class="step-body">No additional approval needed — but thoroughly check all details before clicking "Process Contractor Payment Reversal"</div></li>
           <li><div class="step-num">4</div><div class="step-body">Leave a comment with your case number, WHY the reversal occurred, and WHO was reversed</div></li>
         </ul>
@@ -877,11 +887,10 @@
       </div>
 <div class="resources">
         <h4>📎 Resources</h4>
-        <a class="resource-link" href="#">Payroll Reversals IKB (in-app steps)</a>
-        <a class="resource-link" href="#">Payroll Reversals IKB (Panda steps)</a>
-        <a class="resource-link" href="#">How to Handle Bank Errors / Failed Debits IKB</a>
-        <a class="resource-link" href="#">Guideline Reversals IKB</a>
-        <a class="resource-link" href="#">Payroll Reversal Macros</a>
+        <a class="resource-link" href="https://support.gusto.com/article/internal/220204174353643/Payroll-reversals" target="_blank">Payroll reversals</a>
+        <a class="resource-link" href="https://support.gusto.com/article/internal/220713135931087/Integrated-401-k-Partnership-overview" target="_blank">Integrated 401(k): Partnership overview</a>
+        <a class="resource-link" href="https://support.gusto.com/article/internal/220603121703160/Handle-bank-errors-failed-debits-or-credits" target="_blank">Handle bank errors (failed debits or credits)</a>
+        <a class="resource-link" href="https://support.gusto.com/article/106621949100000/Change-cancel-or-reverse-a-payroll-or-" target="_blank">Change, cancel, or reverse a payroll or payment (for admins)</a>
       </div>
     </div>
 
@@ -981,7 +990,7 @@
           <thead><tr><th>Quarter Status</th><th>Taxes NOT yet paid</th><th>Taxes ALREADY paid</th></tr></thead>
           <tbody>
             <tr><td><strong>Current Quarter</strong></td><td>Set taxes to pending in Panda — refund in 3–5 business days</td><td>Gusto will request refund amounts in the original return at end of quarter</td></tr>
-            <tr><td><strong>Closed Quarter</strong></td><td>File a Payments JIRA (manual NACHA) if AWC didn't auto-trigger a refund</td><td>Customer must wait for amended return process — agencies send refund to company (not employee); takes 12–16 weeks (MasterTax) or 6 weeks (Pufferfish)</td></tr>
+            <tr><td><strong>Closed Quarter</strong></td><td>File a Payments JIRA (manual NACHA) if AWC didn't auto-trigger a refund</td><td>Customer must wait for amended return process — agencies send refund to company (not employee); typically takes 6 weeks (Pufferfish)</td></tr>
           </tbody>
         </table>
         <div class="alert danger">
@@ -998,7 +1007,7 @@
           <div class="term-pill"><div class="term-name">Gross Wages</div>Total wages earned — usually matches the paystub salary.</div>
           <div class="term-pill"><div class="term-name">SW vs. GSW</div>The AWC preview shows both Subject Wages (SW) and Gross Subject Wages (GSW) — both should shift after a correction.</div>
           <div class="term-pill"><div class="term-name">Pufferfish</div>Gusto's internal tax filing system. Speaks directly to Panda. Covers IRS, CA, OH WH, NY, IL.</div>
-          <div class="term-pill"><div class="term-name">MasterTax</div>Third-party filing system Gusto uses. Does NOT speak to Panda directly. Amendment processing is slower (12–16 weeks).</div>
+
         </div>
       </div>
 
@@ -1024,11 +1033,12 @@
       </div>
 <div class="resources">
         <h4>📎 Resources</h4>
-        <a class="resource-link" href="#">AWC Training IKB</a>
-        <a class="resource-link" href="#">Tax Summary (Pufferfish UI)</a>
-        <a class="resource-link" href="#">2024 Debits/Agent Payment Summary</a>
-        <a class="resource-link" href="#">Monthly Filers Resource</a>
-        <a class="resource-link" href="#">Wage Base Limits IKB</a>
+        <a class="resource-link" href="https://support.gusto.com/article/internal/105984124100000/Run-a-wage-correction" target="_blank">Run a wage correction</a>
+        <a class="resource-link" href="https://support.gusto.com/article/internal/115272696100000/Washington-PFML-L-I-Workers-Compensation-and-Unemployment-SUI-setup-calculations-and-troubleshooting" target="_blank">Washington PFML, L&amp;I (Workers' Compensation), and Unemployment (SUI) — setup, calculations, and troubleshooting</a>
+        <a class="resource-link" href="https://support.gusto.com/article/internal/105984207100000/Amended-returns" target="_blank">Amended returns</a>
+        <a class="resource-link" href="https://support.gusto.com/article/106622269100000/Wage-base-limits" target="_blank">Wage base limits</a>
+        <a class="resource-link" href="https://support.gusto.com/article/internal/105984202100000/Add-edit-or-remove-a-tax-exemption-in-Panda" target="_blank">Add, edit, or remove a tax exemption in Panda</a>
+        <a class="resource-link" href="https://support.gusto.com/article/136907295100000/Amending-returns-tax-credits-and-refunds" target="_blank">Amending returns, tax credits, and refunds</a>
       </div>
     </div>
 
@@ -1036,7 +1046,7 @@
       <div class="module-header">
         <div class="module-badge">Case Reason 3 of 12</div>
         <div class="module-title">Exempt Taxes</div>
-        <div class="module-subtitle">Managing tax exemptions at the company or employee level — and knowing when to use the CFIP Blocker tool instead.</div>
+        <div class="module-subtitle">Managing tax exemptions at the company or employee level — and knowing when to use the CFIP (Company Filing Inactivity Period) Blocker tool instead.</div>
       </div>
 
       <div class="section">
@@ -1100,7 +1110,7 @@
         <ul class="steps">
           <li><div class="step-num">1</div><div class="step-body"><strong>Identify the problem</strong> — Company has been using a tax exemption just to prevent $0 filings, not because they are genuinely exempt.</div></li>
           <li><div class="step-num">2</div><div class="step-body"><strong>Remove the incorrect exemption</strong> — Work with the admin to remove the improperly applied exemption.</div></li>
-          <li><div class="step-num">3</div><div class="step-body"><strong>Apply the CFIP Blocker</strong> — Use the Internal Filing Blocker Tool (IKB: Tax Process: Blocking $0 Filings). This blocks the specific filing, creates a $0 draft, and auto-restarts if the employer re-hires.</div></li>
+          <li><div class="step-num">3</div><div class="step-body"><strong>Apply the CFIP Blocker</strong> <span style="font-weight:400;color:var(--gusto-mid);font-size:0.92em;">(CFIP = Company Filing Inactivity Period)</span> — Use the Internal Filing Blocker Tool (IKB: Tax Process: Blocking $0 Filings). This blocks the specific filing, creates a $0 draft, and auto-restarts if the employer re-hires.</div></li>
         </ul>
         <div class="alert info">
           <span class="alert-icon">ℹ️</span>
@@ -1110,10 +1120,8 @@
 
       <div class="resources">
         <h4>📎 Resources</h4>
-        <a class="resource-link" href="#">Company Exemptions IKB</a>
-        <a class="resource-link" href="#">Employee Exemptions IKB</a>
-        <a class="resource-link" href="#">$0 Filing / CFIP Blocker IKB</a>
-        <a class="resource-link" href="#">Pufferfish — $0 Filing Reference</a>
+        <a class="resource-link" href="https://support.gusto.com/article/internal/105983285100000/Quarterly-tax-filings-process-and-2026-filing-calendar" target="_blank">Quarterly tax filings process and 2026 filing calendar</a>
+        <a class="resource-link" href="https://support.gusto.com/article/106622303100000/Set-up-and-manage-tax-exemptions-for-admins" target="_blank">Set up and manage tax exemptions (for admins)</a>
       </div>
     </div>
 
@@ -1940,6 +1948,7 @@
           </div>
           <h3 id="quiz-result-heading">Knowledge Check Complete</h3>
           <p id="quiz-result-msg"></p>
+          <button class="quiz-hub-btn" id="quiz-hub-btn" style="display:none" onclick="window.location.href='index.html'">🏠 Return to Hub</button>
           <button class="quiz-restart-btn" onclick="quizRestart()">Retake Quiz</button>
         </div>
       </div>
@@ -1991,6 +2000,7 @@
           </div>
           <h3 id="quiz2-result-heading">Knowledge Check Complete</h3>
           <p id="quiz2-result-msg"></p>
+          <button class="quiz-hub-btn" id="quiz2-hub-btn" style="display:none" onclick="window.location.href='index.html'">🏠 Return to Hub</button>
           <button class="quiz-restart-btn" onclick="quiz2Restart()">Retake Quiz</button>
         </div>
       </div>
@@ -2250,15 +2260,15 @@
     },
     {
       topic: "Payroll Reversal",
-      q: "An employee was paid on a payroll that ran 7 days ago. The admin wants to pull back the funds. What should you tell them?",
+      q: "An employee was paid on a payroll that ran 10 business days ago. The admin wants to pull back the funds. What should you tell them?",
       opts: [
         "You can pull back funds — there is no time limit",
-        "Funds cannot be pulled back after 5 days, but the payroll can still be reversed for tax reporting purposes",
+        "Funds cannot be pulled back after 5 business days, but the payroll can still be reversed for tax reporting purposes",
         "You must wait until the end of the quarter to reverse",
-        "Convert to check is the only option after 5 days"
+        "Convert to check is the only option after 5 business days"
       ],
       answer: 1,
-      feedback: "Right. After 5 days from the check date, Gusto cannot legally pull funds — but the payroll reversal itself can still be processed to fix tax reporting. The company must then work with the employee directly to recover the money."
+      feedback: "Right. After 5 business days from the check date, Gusto cannot legally pull funds — but the payroll reversal itself can still be processed to fix tax reporting. The company must then work with the employee directly to recover the money."
     },
     {
       topic: "Payroll Reversal",
@@ -2286,7 +2296,7 @@
     },
     {
       topic: "Payroll Reversal",
-      q: "A company processed a payroll with a 401(k) contribution after the check date. Which additional step is required before reversing?",
+      q: "A company processed a payroll with a Guideline 401(k) contribution after the check date. Which additional step is required before reversing?",
       opts: [
         "No additional steps — process the reversal normally",
         "Get written consent from each affected employee",
@@ -2294,7 +2304,7 @@
         "Submit a JIRA ticket to the Tax team first"
       ],
       answer: 2,
-      feedback: "That's right. When reversing a payroll after the check date that includes a 401(k) contribution, you must notify Guideline at clients@guideline.com before proceeding. Before the check date, no Guideline notification is needed."
+      feedback: "That's right. When reversing a payroll after the check date that includes a Guideline 401(k) contribution, written approval from Guideline is required before proceeding — email clients@guideline.com. Note: this step only applies to Guideline 401(k); external 401(k) providers do not require this additional approval."
     },
 
     // ── Auto Wage Correction (Q6-10) ─────────────────────────────────
@@ -2340,11 +2350,11 @@
       opts: [
         "3–5 business days via standard NACHA",
         "End of the current quarter",
-        "12–16 weeks via MasterTax, or approximately 6 weeks via Pufferfish",
+        "Approximately 6 weeks via the amended return process",
         "Immediately — Gusto reverses the payment directly"
       ],
       answer: 2,
-      feedback: "Right. When taxes have already been remitted to the agency in a closed quarter, the company must wait for the amended return process. MasterTax agencies take 12–16 weeks; Pufferfish agencies take approximately 6 weeks."
+      feedback: "Right. When taxes have already been remitted to the agency in a closed quarter, the company must wait for the amended return process via Pufferfish — typically approximately 6 weeks."
     },
     {
       topic: "Auto Wage Correction",
@@ -2531,6 +2541,7 @@
     const qr = document.getElementById('quiz-results');
     qr.style.display = '';
     qr.classList.add('show');
+    document.getElementById('quiz-hub-btn').style.display = passed ? '' : 'none';
   }
 
   function quizRestart() {
@@ -2540,6 +2551,7 @@
     const qr2 = document.getElementById('quiz-results');
     qr2.style.display = 'none';
     qr2.classList.remove('show');
+    document.getElementById('quiz-hub-btn').style.display = 'none';
     document.getElementById('quiz-question-area').style.display = '';
     document.getElementById('quiz-prog-label').closest('.quiz-progress-row').style.display = '';
     document.querySelector('.quiz-nav').style.display = '';
@@ -2877,6 +2889,7 @@
     circle.style.background   = passed ? '#F0FDF4' : 'var(--gusto-coral-light)';
     document.getElementById('quiz2-score-num').style.color = passed ? '#22C55E' : 'var(--gusto-coral)';
     document.getElementById('quiz2-results').classList.add('show');
+    document.getElementById('quiz2-hub-btn').style.display = passed ? '' : 'none';
     sendToSheet('Phase 2', quiz2LearnerEmail, quiz2LearnerSite, score, QUIZ_QUESTIONS_P2.length, passed);
   }
 
