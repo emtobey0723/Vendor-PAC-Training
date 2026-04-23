@@ -1128,62 +1128,227 @@
         <div class="module" id="module-3">
       <div class="module-header">
         <div class="module-badge">Case Reason 4 of 12</div>
-        <div class="module-title">Non-Gusto Payroll (External Providers)</div>
-        <div class="module-subtitle">Entering historical payroll data from a previous provider when a customer switches to Gusto mid-year.</div>
+        <div class="module-title">Non-Gusto Payroll (Externals)</div>
+        <div class="module-subtitle">Entering payroll data that was processed outside of Gusto — ensuring quarterly and annual filings, W-2s, and tax amounts are accurate.</div>
       </div>
 
       <div class="section">
-        <div class="section-title">What is it?</div>
+        <div class="section-title">What is it &amp; Why does it matter?</div>
         <div class="overview-box">
-          When a customer switches to Gusto mid-year, Gusto needs their <strong>Year-to-Date (YTD) payroll data</strong> from their previous provider to ensure accurate tax calculations and filings. This is called entering a <strong>Non-Gusto Payroll</strong> (also called a historical or external payroll). The data must be imported as a spreadsheet — not a PDF.
+          A <strong>Non-Gusto Payroll</strong> (also called an External) is any payment that was processed outside of Gusto, or was not entered historically during onboarding. Entering these in Gusto ensures that:
+          <ul style="margin-top:10px;padding-left:20px;line-height:1.8">
+            <li>Quarterly and annual forms accurately reflect subject wages and tax amounts (including W-2s)</li>
+            <li>Amendments necessary for prior quarters are triggered correctly</li>
+          </ul>
         </div>
-        <div class="alert danger">
-          <span class="alert-icon">🚫</span>
-          <div><strong>Never try to import a PDF.</strong> PDFs cannot be used for data integration. Always request the report in <strong>.XLSX, .XLS, or .CSV format</strong>. Entering data manually from a PDF creates errors and downstream notices.</div>
+        <div class="alert tip">
+          <span class="alert-icon">💡</span>
+          <div><strong>Default approach:</strong> Non-Gusto payrolls should almost always be entered by the customer in-app. Only Tier 2 processes externals in Panda when self-serve is not possible.</div>
         </div>
       </div>
 
       <div class="section">
-        <div class="section-title">Before You Start</div>
-        <ul class="checklist">
-          <li>Install Microsoft Excel via Managed Software Center (sign in with firstname.lastname@gusto.com / Okta password)</li>
-          <li>Always check the Provider Playbook first — steps change and the Playbook has the most current instructions</li>
-          <li>Confirm which payroll provider the customer was using</li>
-          <li>Request the correct report format from the customer (provider-specific)</li>
-        </ul>
-      </div>
-
-      <div class="section">
-        <div class="section-title">Provider-Specific Report Requests</div>
+        <div class="section-title">Non-Gusto Payroll vs. Off-Cycle Payroll</div>
+        <p class="prose">There are two ways to account for payrolls not processed in Gusto — choosing the right one matters for tax accuracy.</p>
         <table class="compare-table">
-          <thead><tr><th>Provider</th><th>Report to Request</th><th>Format</th></tr></thead>
+          <thead><tr><th></th><th>Non-Gusto Payroll</th><th>Off-Cycle Payroll</th></tr></thead>
           <tbody>
-            <tr><td><strong>ADP Run</strong></td><td>Payroll Detail Report (filtered by quarter)</td><td>Excel-New download</td></tr>
-            <tr><td><strong>QuickBooks Desktop (QBD)</strong></td><td>Payroll Summary (customized — remove Hours &amp; Rates, export per quarter)</td><td>.CSV</td></tr>
-            <tr><td><strong>QuickBooks Online (QBO)</strong></td><td>Payroll Summary By Employee (under Migration Documents/Reports)</td><td>Excel (.XLSX)</td></tr>
-            <tr><td><strong>Paychex</strong></td><td>Department Summary Data with Employee Detail (via Analytics &amp; Reports → Live Reports)</td><td>.XLSX or .XLS</td></tr>
-            <tr><td><strong>Zenefits</strong></td><td>All-in-One Report (Payroll → Reports &amp; Forms → All-in-One) for the full date range</td><td>.XLSX, .XLS, or .CSV</td></tr>
+            <tr><td><strong>Who enters it</strong></td><td>Customer self-serves in-app (or Tier 2 in Panda)</td><td>Customer self-serves in-app</td></tr>
+            <tr><td><strong>Wages</strong></td><td>Paid outside of Gusto</td><td>Paid/reported through Gusto</td></tr>
+            <tr><td><strong>Quarter</strong></td><td>Used for <strong>closed quarters</strong> in most cases. Use for the current quarter if some or all taxes were already remitted by the company (e.g. prior provider wages)</td><td>Used to report wages in the <strong>current quarter</strong> only</td></tr>
+            <tr><td><strong>Taxes</strong></td><td>Admin specifies which taxes are prepaid vs. pending</td><td>All associated taxes are debited by Gusto</td></tr>
+          </tbody>
+        </table>
+
+        <div class="section-title" style="margin-top:28px">Real-World Examples</div>
+        <div class="card-grid">
+          <div class="card teal">
+            <h4>Example 1 — Off-Cycle ✅</h4>
+            <em>Email 5/1/24 · First check date 4/3/24</em><br><br>
+            Admin paid an employee $1,500 on April 10th but forgot to run it through payroll. No taxes were paid.<br><br>
+            <strong>Why off-cycle?</strong> The check date falls within the current quarter. Instruct admin to run an off-cycle payroll.
+          </div>
+          <div class="card coral">
+            <h4>Example 2 — Non-Gusto ✅</h4>
+            <em>Email 3/17/24 · First check date 2/15/24</em><br><br>
+            Admin had a payroll in early February processed by Paychex. Some taxes were already paid by the prior provider.<br><br>
+            <strong>Why Non-Gusto?</strong> Payroll was processed outside of Gusto. Instruct admin to enter a Non-Gusto payroll in-app.
+          </div>
+          <div class="card yellow">
+            <h4>Example 3 — Non-Gusto ✅</h4>
+            <em>Email 4/18/24 · First check date 3/31/24</em><br><br>
+            Admin discovered Q1 previous payroll wages were overstated by $500 for an employee — entered during onboarding.<br><br>
+            <strong>Why Non-Gusto?</strong> Processed outside of Gusto prior to joining. Reverse the original historical payroll in Panda, then re-enter as Non-Gusto specifying which taxes were prepaid.
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-title">When to Say NO to an External Request</div>
+        <div class="alert warning">
+          <span class="alert-icon">⚠️</span>
+          <div>There are a few instances where we do <strong>not</strong> fulfill a request for an External:</div>
+        </div>
+        <div class="two-col">
+          <div class="card coral">
+            <h4>📅 Amendment Policy</h4>
+            We can amend accepted returns that Gusto originally filed, for up to <strong>3 full tax years</strong> after the original filing period.
+          </div>
+          <div class="card teal">
+            <h4>🏢 Historical Payrolls with a PEO</h4>
+            All payrolls from the customer's time with a PEO will be included on quarterly/annual filings and W-2s <strong>under the PEO</strong> — not Gusto.
+          </div>
+        </div>
+        <div class="card yellow" style="margin-top:12px">
+          <h4>⚠️ Intentional Misuse of Platform</h4>
+          Intentionally not submitting payroll throughout the year to avoid paying taxes. You can warn the customer we will not accommodate these corrections in the future, but perform them as a <strong>one-time courtesy</strong>. Be sure to add a comment in the company's Panda so we don't continue granting one-time courtesies.
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-title">Before Processing — Information Needed from Admin</div>
+        <div class="two-col">
+          <div class="card teal">
+            <h4>💰 Wage, Tax &amp; Benefit Amounts</h4>
+            <ul style="padding-left:16px;line-height:1.8;margin-top:8px">
+              <li>Regular hours, gross earnings, additional earnings</li>
+              <li>Benefit deductions</li>
+              <li>Admin should provide tax amounts. If they did not withhold tax, they can use Gusto's tax calculations.</li>
+            </ul>
+          </div>
+          <div class="card coral">
+            <h4>🏦 Tax Payments</h4>
+            <strong>Mark as Prepaid:</strong> Admin already remitted tax payments outside of Gusto.<br><br>
+            <strong>Mark as Pending:</strong> Gusto needs to debit/remit taxes on behalf of the company. Only available if Gusto filed for taxes within that quarter.<br><br>
+            <strong>Important:</strong> We must debit SUI in the current quarter. For quarters the customer was not with us, the only tax we can debit is FUTA.
+          </div>
+        </div>
+
+        <div class="section-title" style="margin-top:24px">Can We Debit?</div>
+        <table class="compare-table">
+          <thead><tr><th>Scenario</th><th>Can Gusto Debit?</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Current Quarter</strong></td><td>✅ Gusto can debit &amp; remit any taxes</td></tr>
+            <tr><td><strong>Closed Quarters</strong></td><td>Only if Gusto originally filed for that quarter. Review <strong>Quarterly Form Filings</strong> in Panda to confirm which quarters/agencies Gusto successfully filed for.</td></tr>
+            <tr><td><strong>FUTA</strong></td><td>We can debit for FUTA as long as the external is for the current year</td></tr>
+            <tr><td><strong>Pufferfish Agencies</strong></td><td>TaxOps will support original filings/payments for all Pufferfish agencies triggered after the deadline, up until their last re-file attempt date (1 month after quarter closes)</td></tr>
           </tbody>
         </table>
       </div>
 
       <div class="section">
-        <div class="section-title">Formatting the Data (Gustie Steps)</div>
-        <p class="prose">After receiving the file, most providers' exports need to be reformatted before importing. The standard steps for QBD and QBO:</p>
+        <div class="section-title">Benefit Implications — Check for GMB First</div>
+        <div class="alert danger">
+          <span class="alert-icon">🚫</span>
+          <div>Before reaching out to the admin, check if the company has active <strong>Gusto-Managed Benefits (GMB)</strong>. If they do, route the case to <strong>Tier 2 — Benefits</strong>.</div>
+        </div>
         <ul class="steps">
-          <li><div class="step-num">1</div><div class="step-body">Open Excel and copy the text-only data (including column and row headers)</div></li>
-          <li><div class="step-num">2</div><div class="step-body">In a new sheet, right-click and select <strong>Paste Special → Transpose</strong></div></li>
-          <li><div class="step-num">3</div><div class="step-body">Use <strong>Find &amp; Replace</strong>: Find <code>-</code> (minus sign), Replace with nothing — this converts negative numbers to positive</div></li>
-          <li><div class="step-num">4</div><div class="step-body">Select all records, expand column widths, apply sort filters</div></li>
-          <li><div class="step-num">5</div><div class="step-body">Remove any blank entries before importing</div></li>
+          <li><div class="step-num">1</div><div class="step-body">From the company's main Panda page, check for the <strong>Benefits pill</strong> at the top of the screen. If present, confirm the benefits are active (expired benefits = NOT a GMB case).</div></li>
+          <li><div class="step-num">2</div><div class="step-body">Click <strong>Hippo</strong> in the top right corner of the Panda page (no Hippo button = no GMB).</div></li>
+          <li><div class="step-num">3</div><div class="step-body">In Hippo, scroll to the <strong>Current Benefits / Active Subscriptions</strong> screen to confirm whether GMB is active.</div></li>
+          <li><div class="step-num">4</div><div class="step-body">If active GMB is confirmed → route the case to <strong>Benefits Tier 2</strong>.</div></li>
+        </ul>
+      </div>
+
+      <div class="section">
+        <div class="section-title">In-App vs. In Panda — Which Do We Use?</div>
+        <div class="overview-box">
+          Whenever possible, instruct the admin to enter the Non-Gusto payroll <strong>in-app</strong>. This way, they learn to self-serve and there is less work for advocates. However, if you have all the information needed, you can enter it yourself in Panda for a better customer experience — then send them the steps so they can self-serve in the future.
+        </div>
+        <div class="alert warning">
+          <span class="alert-icon">⚠️</span>
+          <div><strong>Common situations where we will enter the payroll manually in Panda:</strong>
+            <ul style="margin-top:8px;padding-left:18px;line-height:1.9">
+              <li>The correction is required due to a Gusto error or the admin is escalated</li>
+              <li>The system is not allowing the admin to enter the payroll in-app due to a bug</li>
+              <li>FEIN Change scenario — customer already ran payroll on the new FEIN account (see FEIN Change training)</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-title">Entering the External Manually in Panda (9 Steps)</div>
+        <div class="alert tip">
+          <span class="alert-icon">💡</span>
+          <div><strong>Quick callouts before you start:</strong>
+            <ul style="margin-top:8px;padding-left:18px;line-height:1.9">
+              <li><strong>Drafts:</strong> You can navigate away and the draft will be saved. If you cancel before processing, it stays in draft form.</li>
+              <li><strong>Garnishments/Reimbursements:</strong> Not necessary to include — both are post-tax with no tax implications. Reimbursements can be added in-app by the admin. Garnishments can be added via MWC or as an EE deduction for a Custom post-tax benefit in rare cases.</li>
+              <li><strong>Different Tax Liabilities:</strong> Taxes can only be debited in full. If only a portion was paid, mark that tax as prepaid and have the admin remit the remaining portion directly to the agency.</li>
+              <li><strong>Washington &amp; Oregon work hours:</strong> Must include number of hours worked due to state filing requirements. Optional for all other states.</li>
+            </ul>
+          </div>
+        </div>
+        <ul class="steps">
+          <li><div class="step-num">1</div><div class="step-body">In Panda, go to <strong>External Employee Payrolls</strong> on the company's main page, then click the red <strong>"Navigate to external payroll tool"</strong> button in the top right corner.</div></li>
+          <li><div class="step-num">2</div><div class="step-body">Confirm the admin cannot enter in-app. Scroll down and click <strong>"Add a non-Gusto payroll."</strong> Select the reason for entering (Payroll Migration, Minister Housing, Stock options, Additional wages for net pay, Customer refuses, Employee retention credits, or Other).</div></li>
+          <li><div class="step-num">3</div><div class="step-body">Enter your <strong>Salesforce case number</strong>, pay period (optional but recommended), <strong>check date</strong>, a detailed comment (Ticket Info — required), and debit date (optional, defaults to next business day).</div></li>
+          <li><div class="step-num">4</div><div class="step-body">Select the <strong>impacted employees</strong> from the dropdown menu.</div></li>
+          <li><div class="step-num">5</div><div class="step-body">Enter wage and tax amounts. Use <strong>"Edit Columns"</strong> to deselect unneeded columns and rearrange order. Click <strong>"Prefill EE/ER tax amounts"</strong> to use Gusto's tax calculations. Note: only active states with assigned addresses are available for state tax — if an employee was paid in a different state with their previous provider but has since moved, the previous address must be added first.</div></li>
+          <li><div class="step-num">6</div><div class="step-body"><strong>Compare with Gusto's tax calculations</strong> and fix any errors. Discrepancies are highlighted in yellow — click the highlighted row to find the cell with the error. For unexpected amounts, check EE hire dates, exemptions, etc. Tax rates used will reflect current Gusto settings at the time of entry.</div></li>
+          <li><div class="step-num">7</div><div class="step-body">Select which tax liabilities should be marked as <strong>prepaid</strong> (already remitted by admin) and mark taxes that should be debited as <strong>pending</strong>. You can mark all liabilities at once using the dropdown. Enter any accrued credits if applicable. Click <strong>"Create Payroll."</strong></div></li>
+          <li><div class="step-num">8</div><div class="step-body">Click <strong>"Preview unprocessed payroll in Panda"</strong> to review before fully submitting. Once everything looks correct, click <strong>"Process payroll and initiate debits."</strong></div></li>
+          <li><div class="step-num">9</div><div class="step-body"><strong>Review the final payroll in Panda.</strong> Confirm debit and refund amounts &amp; dates with the admin, both at a company and employee level. The comment you added will automatically appear at the top of the fully submitted Panda page.</div></li>
+        </ul>
+        <div class="alert tip">
+          <span class="alert-icon">💡</span>
+          <div><strong>Pay stubs:</strong> Externals do NOT generate pay stubs in the employee's profile. If needed, admins can retrieve them by navigating to the "Employee Hours and Earnings" drop-down within payroll history.</div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-title">Tax Reconciliation — Don't Skip This Step!</div>
+        <div class="alert warning">
+          <span class="alert-icon">⚠️</span>
+          <div>After entering a Non-Gusto payroll, <strong>run auto-recons for each impacted quarter</strong> — and each following quarter up to the most current check date.</div>
+        </div>
+        <div class="two-col">
+          <div class="card teal">
+            <h4>Why Run Recons?</h4>
+            Recons ensure the tax summary is trued up and that corrections will not cause downstream errors or failed filings.
+          </div>
+          <div class="card coral">
+            <h4>What to Look For</h4>
+            <ul style="padding-left:16px;line-height:1.8;margin-top:8px">
+              <li>Reallocation of wage bases (FUTA, SUI, etc.) to the first earned wages of the year</li>
+              <li>Any rounding discrepancies</li>
+              <li>Big changes in amounts withheld due to inaccurate tax rates</li>
+              <li>Anything unexpected that needs further research</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="section-title" style="margin-top:24px">Checking Amendments</div>
+        <div class="prose">Changes to wages and taxes for previous quarters require amended filings. Key rules:</div>
+        <ul class="checklist" style="margin-top:12px">
+          <li>Amendments are automatically generated</li>
+          <li>Gusto can only generate an amendment if we <strong>successfully filed the original</strong> filing for the company</li>
+          <li>Double-check that we both <em>generated</em> the filings <em>and</em> they were <em>successful</em> in the Quarterly Form Filings section of Panda</li>
+          <li>You can view the amendment in Pufferfish to confirm the filing date — amendments on quarterly filings take <strong>4–6 weeks</strong> to process, longer during end of year</li>
+        </ul>
+
+        <div class="section-title" style="margin-top:24px">Checking W-2Cs</div>
+        <div class="alert tip">
+          <span class="alert-icon">💡</span>
+          <div>W-2Cs are now generated automatically through Pufferfish. If Gusto did not generate an original W-2 for an employee, we cannot generate an amended W-2.</div>
+        </div>
+        <ul class="steps">
+          <li><div class="step-num">1</div><div class="step-body">Head to Pufferfish and click <strong>Update Filters</strong> to find the company's W-2C</div></li>
+          <li><div class="step-num">2</div><div class="step-body">Use the company's ID and other information to find the filing, then click the <strong>Filing ID</strong> to navigate to Filing details</div></li>
+          <li><div class="step-num">3</div><div class="step-body">Click <strong>Regenerate Filing Data</strong> to refresh and see changes made in Panda</div></li>
+          <li><div class="step-num">4</div><div class="step-body">Click <strong>Preview</strong> and confirm the changes are reflecting on the W-2C</div></li>
+          <li><div class="step-num">5</div><div class="step-body">Note: W-2Cs can take up to <strong>48 hours</strong> to show in-app</div></li>
         </ul>
       </div>
 
       <div class="resources">
         <h4>📎 Resources</h4>
-        <a class="resource-link" href="#">Provider Playbooks</a>
-        <a class="resource-link" href="#">NGP Launch Training Video (16 min)</a>
-        <a class="resource-link" href="#">Excel Troubleshooting (OKTA credentials)</a>
+        <a class="resource-link" href="https://support.gusto.com/article/999908231000000/Run-an-off-cycle-payroll-for-admins" target="_blank">Run an off-cycle payroll (for admins)</a>
+        <a class="resource-link" href="https://support.gusto.com/article/191402469100000/Report-a-non-Gusto-payroll-missing-payroll" target="_blank">Report a non-Gusto payroll (missing payroll)</a>
+        <a class="resource-link" href="https://support.gusto.com/article/106622058100000/View-a-list-of-tax-forms-Gusto-files-for-you-federal-and-state" target="_blank">View a list of tax forms Gusto files for you (federal and state)</a>
+        <a class="resource-link" href="https://support.gusto.com/article/internal/105983285100000/Quarterly-tax-filings-process-and-2026-filing-calendar#filingcalendar" target="_blank">Quarterly tax filings process and 2026 filing calendar</a>
+        <a class="resource-link" href="https://support.gusto.com/article/internal/107074005100000/Pufferfish-for-filings-and-payments" target="_blank">Pufferfish for filings and payments</a>
       </div>
     </div>
 
@@ -1981,11 +2146,11 @@
           <button class="quiz-start-btn" onclick="startQuiz2()">Start Knowledge Check →</button>
         </div>
         <div class="quiz-intro" id="quiz2-intro-p2" style="display:none;">
-          <strong>Instructions:</strong> Select the best answer for each question. You'll receive immediate feedback after each response. A score of <strong>12/15 (80%)</strong> or above means you're ready to move to Phase 3.
+          <strong>Instructions:</strong> Select the best answer for each question. You'll receive immediate feedback after each response. A score of <strong>8/10 (80%)</strong> or above means you're ready to move to Phase 3.
         </div>
         <div class="quiz-progress-row" id="quiz2-progress-row-p2" style="display:none;">
-          <div class="quiz-progress-label" id="quiz2-prog-label">Question 1 of 15</div>
-          <div class="quiz-progress-outer"><div class="quiz-progress-inner" id="quiz2-prog-bar" style="width:6.67%"></div></div>
+          <div class="quiz-progress-label" id="quiz2-prog-label">Question 1 of 10</div>
+          <div class="quiz-progress-outer"><div class="quiz-progress-inner" id="quiz2-prog-bar" style="width:10%"></div></div>
           <div class="quiz-progress-pct" id="quiz2-prog-pct">7%</div>
         </div>
         <div id="quiz2-question-area" style="display:none;"></div>
@@ -1996,7 +2161,7 @@
         <div class="quiz-results" id="quiz2-results">
           <div class="quiz-score-circle">
             <div class="quiz-score-num" id="quiz2-score-num">—</div>
-            <div class="quiz-score-denom">out of 15</div>
+            <div class="quiz-score-denom">out of 10</div>
           </div>
           <h3 id="quiz2-result-heading">Knowledge Check Complete</h3>
           <p id="quiz2-result-msg"></p>
@@ -2694,45 +2859,45 @@
   // ══════════════════════════════════════════════
   const QUIZ_QUESTIONS_P2 = [
     { topic: 'Non-Gusto Payroll',
-      q: 'What file format must YTD payroll data be in when importing into Gusto for a customer switching mid-year?',
-      opts: ['PDF only, since it is the most common format from providers',
-             'XLSX, XLS, or CSV — never a PDF',
-             'Any format the previous provider can export',
-             "XML or JSON via the provider's API"],
+      q: 'What is a Non-Gusto Payroll (External)?',
+      opts: ['A payroll run through Gusto for a new employee in their first pay period',
+             'Any payment processed outside of Gusto, or not entered historically during onboarding',
+             'A payroll that was canceled before the debit date',
+             'An off-cycle payroll used to correct a prior pay period'],
       answer: 1,
-      feedback: 'PDFs cannot be used for data integration. Always request the report in spreadsheet format (.XLSX, .XLS, or .CSV).' },
+      feedback: 'A Non-Gusto Payroll is any payment processed outside of Gusto or not entered historically during onboarding. Entering it in Gusto ensures accurate filings, W-2s, and triggers necessary amendments.' },
     { topic: 'Non-Gusto Payroll',
-      q: 'Before beginning any Non-Gusto Payroll entry, what should you always consult first?',
-      opts: ["The customer's previous payroll provider directly",
-             'The Provider Playbook — steps change and it has the most current instructions',
-             'Your team lead for verbal approval',
-             'The Help Center FAQ for general payroll questions'],
+      q: 'An admin paid an employee a bonus this quarter but already remitted all the taxes to the agency outside of Gusto. Should this be entered as a Non-Gusto Payroll or an Off-Cycle Payroll?',
+      opts: ['Off-Cycle Payroll — because all taxes have been paid',
+             'Non-Gusto Payroll — because taxes were already remitted by the company outside of Gusto',
+             'Neither — this does not need to be entered in Gusto',
+             'Off-Cycle Payroll — because the wages are in the current quarter'],
       answer: 1,
-      feedback: "Always check the Provider Playbook first — steps vary by provider and change frequently. It's the authoritative source." },
+      feedback: 'When some or all taxes have already been remitted by the company outside of Gusto (even in the current quarter), a Non-Gusto Payroll is the correct choice. Off-Cycle Payroll is used when Gusto will debit all taxes.' },
     { topic: 'Non-Gusto Payroll',
-      q: 'A customer is switching from ADP Run. What report do you request for their YTD payroll data?',
-      opts: ['Year-End Summary (W-2 format)',
-             'Payroll Detail Report, filtered by quarter — exported in Excel-New format',
-             'Employee Master List with earnings history',
-             'ADP Data Export (Full Year PDF)'],
+      q: 'What is the amendment policy for Non-Gusto Payroll requests?',
+      opts: ['Gusto can amend any filing regardless of how old it is',
+             'Gusto can amend accepted returns it originally filed, for up to 3 full tax years after the original filing period',
+             'Gusto can only amend filings from the current calendar year',
+             'Gusto can amend the previous four quarters only'],
       answer: 1,
-      feedback: 'For ADP Run, request the Payroll Detail Report filtered by quarter, downloaded in Excel-New format.' },
+      feedback: 'Gusto can amend accepted returns that it originally filed, for up to 3 full tax years after the original filing period. Requests beyond that window should be declined.' },
     { topic: 'Non-Gusto Payroll',
-      q: 'When formatting imported payroll data in Excel, you use Paste Special → Transpose. What does this accomplish?',
-      opts: ['Merges duplicate employee rows into one record',
-             'Converts row-based data into a column-based layout required for import',
-             'Removes negative deduction entries automatically',
-             'Applies color-coded formatting to column headers'],
+      q: 'When entering an External in Panda, the admin already paid FIT and SIT but Gusto still needs to debit FUTA and SUI. How should the tax liabilities be marked?',
+      opts: ['Mark all taxes as Prepaid',
+             'Mark FIT and SIT as Prepaid; mark FUTA and SUI as Pending',
+             'Mark FUTA and SUI as Prepaid; mark FIT and SIT as Pending',
+             'Mark all taxes as Pending and let Gusto sort it out'],
       answer: 1,
-      feedback: "Paste Special → Transpose converts the row-based layout from providers into the column-based layout Gusto's import requires." },
+      feedback: 'Prepaid = admin already remitted those taxes outside of Gusto. Pending = Gusto needs to debit and remit on behalf of the company. Mark each tax according to who paid it.' },
     { topic: 'Non-Gusto Payroll',
-      q: 'In the Excel formatting step, you use Find & Replace to search for a dash (minus sign) and replace it with nothing. What is the purpose?',
-      opts: ['To remove hyphenated last names from the employee list',
-             'To delete blank rows in the spreadsheet',
-             'To convert negative numbers to positive values for proper import',
-             'To strip date separators from hire dates'],
-      answer: 2,
-      feedback: 'Replacing the minus sign converts negative (deduction-formatted) numbers to positive values, preventing import errors.' },
+      q: 'After entering a Non-Gusto payroll for a company, what must you always do for each impacted quarter?',
+      opts: ['Submit a JIRA ticket to the Tax team',
+             'Run auto-recons for each impacted quarter and each following quarter for the remainder of the year',
+             'Email the admin a confirmation with all tax amounts',
+             'File an amended return manually in Pufferfish'],
+      answer: 1,
+      feedback: 'Running auto-recons after entering an External ensures the tax summary is accurate and prevents downstream errors and failed filings. Run for each impacted quarter and every following quarter for the rest of the year.' },
     { topic: 'Tax Reconciliation Payroll',
       q: 'Which of the following events requires running a reconciliation payroll?',
       opts: ['A new employee is hired mid-month',
