@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Google Sheets Setup — Payroll Training</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: #F9F6F0; color: #2D2D2D; padding: 40px 24px; max-width: 760px; margin: 0 auto; }
+  h1 { font-size: 28px; font-weight: 700; color: #F45D48; margin-bottom: 6px; }
+  .subtitle { font-size: 15px; color: #6B6B6B; margin-bottom: 36px; }
+  .step-card {
+    background: #fff; border-radius: 12px; border: 1px solid #E0DBD3;
+    padding: 28px 32px; margin-bottom: 20px;
+  }
+  .step-header { display: flex; align-items: center; gap: 14px; margin-bottom: 16px; }
+  .step-num {
+    width: 36px; height: 36px; border-radius: 50%; background: #F45D48;
+    color: white; font-weight: 700; font-size: 16px;
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  }
+  .step-title { font-size: 17px; font-weight: 700; }
+  .step-body { font-size: 14px; line-height: 1.7; color: #3a3a3a; }
+  .step-body ul { margin: 10px 0 10px 20px; }
+  .step-body li { margin-bottom: 6px; }
+  .step-body strong { color: #2D2D2D; }
+  code {
+    background: #F3F0EB; border-radius: 4px; padding: 2px 6px;
+    font-family: 'SF Mono', 'Fira Code', monospace; font-size: 13px;
+    color: #c7254e;
+  }
+  pre {
+    background: #1e1e2e; color: #cdd6f4;
+    border-radius: 10px; padding: 20px 24px;
+    font-family: 'SF Mono', 'Fira Code', monospace;
+    font-size: 13px; line-height: 1.6;
+    overflow-x: auto; margin: 14px 0;
+  }
+  pre .kw  { color: #cba6f7; }
+  pre .fn  { color: #89b4fa; }
+  pre .str { color: #a6e3a1; }
+  pre .cmt { color: #6c7086; font-style: italic; }
+  pre .num { color: #fab387; }
+  .callout {
+    background: #EAF9F7; border-left: 4px solid #22C5B0;
+    border-radius: 0 8px 8px 0; padding: 12px 16px;
+    font-size: 13px; line-height: 1.6; margin: 14px 0;
+  }
+  .callout strong { color: #1aad9b; }
+  .warn {
+    background: #FEF8EE; border-left: 4px solid #F5A623;
+    border-radius: 0 8px 8px 0; padding: 12px 16px;
+    font-size: 13px; line-height: 1.6; margin: 14px 0;
+  }
+  .back-link { display: inline-block; margin-bottom: 28px; color: #F45D48;
+    text-decoration: none; font-weight: 600; font-size: 14px; }
+  .back-link:hover { text-decoration: underline; }
+  .sheet-preview {
+    border: 1px solid #E0DBD3; border-radius: 8px; overflow: hidden;
+    margin: 14px 0; font-size: 13px;
+  }
+  .sheet-preview table { width: 100%; border-collapse: collapse; }
+  .sheet-preview th {
+    background: #4285F4; color: white; padding: 8px 12px;
+    text-align: left; font-weight: 600; white-space: nowrap;
+  }
+  .sheet-preview td {
+    padding: 7px 12px; border-bottom: 1px solid #E0DBD3;
+    color: #3a3a3a; white-space: nowrap;
+  }
+  .sheet-preview tr:last-child td { border-bottom: none; }
+  .sheet-preview tr:nth-child(even) td { background: #F8F9FA; }
+  .tab-row { display: flex; gap: 6px; margin-bottom: -1px; position: relative; z-index: 1; }
+  .tab-pill {
+    padding: 6px 16px; border-radius: 8px 8px 0 0;
+    border: 1px solid #E0DBD3; border-bottom: none;
+    font-size: 13px; font-weight: 600; background: white;
+  }
+  .tab-pill.tp { color: #3D5AF1; }
+  .tab-pill.tu { color: #22C5B0; background: #F8F9FA; }
+  .done-box {
+    background: #F0FDF4; border: 1px solid #22C55E;
+    border-radius: 12px; padding: 24px 28px; text-align: center;
+    margin-top: 28px;
+  }
+  .done-box h3 { color: #22C55E; font-size: 20px; margin-bottom: 8px; }
+  .done-box p { font-size: 14px; color: #3a3a3a; line-height: 1.6; }
+</style>
+</head>
+<body>
+<script>
+  (function() {
+    var SESSION_KEY = 'pac_auth';
+    var PASSWORD    = '#trainingPACwithGusto';
+    if (sessionStorage.getItem(SESSION_KEY) === '1') return;
+    // Build overlay
+    var overlay = document.createElement('div');
+    overlay.id = 'pw-gate';
+    overlay.style.cssText = 'position:fixed;inset:0;z-index:99999;background:#F9F6F0;display:flex;align-items:center;justify-content:center;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;';
+    overlay.innerHTML = `
+      <div style="background:#fff;border:1px solid #E0DBD3;border-radius:14px;padding:2.5rem 2rem;max-width:360px;width:90%;text-align:center;box-shadow:0 4px 24px rgba(0,0,0,0.08);">
+        <div style="font-size:1.5rem;font-weight:800;color:#F45D48;letter-spacing:-0.03em;margin-bottom:0.25rem;">gusto</div>
+        <div style="font-size:0.8rem;color:#6B6B6B;margin-bottom:1.5rem;font-weight:500;">Payroll Advanced Care Training</div>
+        <input id="pw-input" type="password" placeholder="Enter password" style="width:100%;padding:0.65rem 0.9rem;border:1px solid #E0DBD3;border-radius:8px;font-size:0.95rem;outline:none;margin-bottom:0.75rem;box-sizing:border-box;" />
+        <div id="pw-error" style="color:#F45D48;font-size:0.78rem;min-height:1.1em;margin-bottom:0.5rem;"></div>
+        <button id="pw-btn" style="width:100%;padding:0.7rem;background:#F45D48;color:#fff;border:none;border-radius:8px;font-size:0.95rem;font-weight:700;cursor:pointer;">Enter</button>
+      </div>`;
+    document.body.appendChild(overlay);
+    function attempt() {
+      var val = document.getElementById('pw-input').value;
+      if (val === PASSWORD) {
+        sessionStorage.setItem(SESSION_KEY, '1');
+        overlay.remove();
+      } else {
+        document.getElementById('pw-error').textContent = 'Incorrect password — please try again.';
+        document.getElementById('pw-input').value = '';
+        document.getElementById('pw-input').focus();
+      }
+    }
+    document.getElementById('pw-btn').addEventListener('click', attempt);
+    document.getElementById('pw-input').addEventListener('keydown', function(e) { if (e.key === 'Enter') attempt(); });
+    document.getElementById('pw-input').focus();
+  })();
+</script>
+
+<a class="back-link" href="payroll-training.html">← Back to Training</a>
+
+<h1>Google Sheets Setup</h1>
+<p class="subtitle">Connect the knowledge checks to a Google Sheet so results log automatically by site — Teleperformance and TaskUs each get their own tab.</p>
+
+<!-- STEP 1 -->
+<div class="step-card">
+  <div class="step-header">
+    <div class="step-num">1</div>
+    <div class="step-title">Create a new Google Sheet with two tabs</div>
+  </div>
+  <div class="step-body">
+    <ul>
+      <li>Go to <strong>sheets.google.com</strong> and click <strong>+ Blank</strong></li>
+      <li>Name it something like <strong>Payroll Training — Quiz Results</strong></li>
+      <li>At the bottom, rename the default tab to <strong>Teleperformance</strong> (right-click → Rename)</li>
+      <li>Click the <strong>+</strong> to add a second tab and name it <strong>TaskUs</strong></li>
+      <li>Add these headers to <strong>row 1 on both tabs</strong>:</li>
+    </ul>
+
+    <div class="tab-row">
+      <div class="tab-pill tp">Teleperformance</div>
+      <div class="tab-pill tu">TaskUs</div>
+    </div>
+    <div class="sheet-preview">
+      <table>
+        <thead>
+          <tr>
+            <th>A — Timestamp</th>
+            <th>B — Email</th>
+            <th>C — Site</th>
+            <th>D — Phase</th>
+            <th>E — Score</th>
+            <th>F — Total</th>
+            <th>G — Result</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>4/14/2026, 9:32 AM</td>
+            <td>jordan.lee@gusto.com</td>
+            <td>Teleperformance</td>
+            <td>Phase 1</td>
+            <td>13</td>
+            <td>15</td>
+            <td>Pass</td>
+          </tr>
+          <tr>
+            <td>4/14/2026, 10:05 AM</td>
+            <td>alex.rivera@gusto.com</td>
+            <td>Teleperformance</td>
+            <td>Phase 2</td>
+            <td>10</td>
+            <td>15</td>
+            <td>Fail</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout"><strong>Tip:</strong> Bold the header row on both tabs and freeze it (View → Freeze → 1 row).</div>
+  </div>
+</div>
+
+<!-- STEP 2 -->
+<div class="step-card">
+  <div class="step-header">
+    <div class="step-num">2</div>
+    <div class="step-title">Open Apps Script and paste the logging code</div>
+  </div>
+  <div class="step-body">
+    In your Google Sheet, click <strong>Extensions → Apps Script</strong>. A new tab opens with the script editor.
+    <br><br>
+    Delete any existing code, then paste in the following:
+
+<pre><span class="kw">function</span> <span class="fn">doGet</span>(e) {
+  <span class="kw">try</span> {
+    <span class="kw">const</span> ss   = SpreadsheetApp.<span class="fn">getActiveSpreadsheet</span>();
+    <span class="kw">const</span> p    = e.parameter;
+
+    <span class="cmt">// Route to the correct tab based on site selection</span>
+    <span class="kw">const</span> siteName = (p.site === <span class="str">'TaskUs'</span>) ? <span class="str">'TaskUs'</span> : <span class="str">'Teleperformance'</span>;
+    <span class="kw">let</span> sheet = ss.<span class="fn">getSheetByName</span>(siteName);
+
+    <span class="cmt">// Auto-create the tab if it doesn't exist yet</span>
+    <span class="kw">if</span> (!sheet) {
+      sheet = ss.<span class="fn">insertSheet</span>(siteName);
+      sheet.<span class="fn">appendRow</span>([
+        <span class="str">'Timestamp'</span>, <span class="str">'Email'</span>, <span class="str">'Site'</span>,
+        <span class="str">'Phase'</span>, <span class="str">'Score'</span>, <span class="str">'Total'</span>, <span class="str">'Result'</span>
+      ]);
+    }
+
+    sheet.<span class="fn">appendRow</span>([
+      <span class="kw">new</span> <span class="fn">Date</span>().<span class="fn">toLocaleString</span>(),  <span class="cmt">// Timestamp</span>
+      p.email  || <span class="str">'unknown'</span>,          <span class="cmt">// Gusto Care email</span>
+      siteName,                          <span class="cmt">// Teleperformance or TaskUs</span>
+      p.phase  || <span class="str">''</span>,                 <span class="cmt">// Phase 1 or Phase 2</span>
+      <span class="fn">parseInt</span>(p.score) || <span class="num">0</span>,         <span class="cmt">// Score (e.g. 13)</span>
+      <span class="fn">parseInt</span>(p.total) || <span class="num">15</span>,        <span class="cmt">// Total questions</span>
+      p.passed || <span class="str">'—'</span>                 <span class="cmt">// Pass or Fail</span>
+    ]);
+
+    <span class="kw">return</span> ContentService
+      .<span class="fn">createTextOutput</span>(<span class="str">'OK'</span>)
+      .<span class="fn">setMimeType</span>(ContentService.MimeType.TEXT);
+
+  } <span class="kw">catch</span>(err) {
+    <span class="kw">return</span> ContentService
+      .<span class="fn">createTextOutput</span>(<span class="str">'Error: '</span> + err.message)
+      .<span class="fn">setMimeType</span>(ContentService.MimeType.TEXT);
+  }
+}</pre>
+
+    Click the <strong>💾 Save</strong> icon (Ctrl/Cmd+S) to save.
+  </div>
+</div>
+
+<!-- STEP 3 -->
+<div class="step-card">
+  <div class="step-header">
+    <div class="step-num">3</div>
+    <div class="step-title">Deploy as a web app</div>
+  </div>
+  <div class="step-body">
+    <ul>
+      <li>Click <strong>Deploy</strong> (top right) → <strong>New deployment</strong></li>
+      <li>Click the gear icon ⚙ → choose <strong>Web app</strong></li>
+      <li>Set the options:
+        <ul style="margin-top:6px;">
+          <li><strong>Description:</strong> Quiz Results Logger</li>
+          <li><strong>Execute as:</strong> Me</li>
+          <li><strong>Who has access:</strong> Anyone</li>
+        </ul>
+      </li>
+      <li>Click <strong>Deploy</strong> → authorize if prompted</li>
+      <li>Copy the <strong>Web app URL</strong> — it ends in <code>/exec</code></li>
+    </ul>
+    <div class="warn"><strong>⚠️ Important:</strong> Use the <code>/exec</code> URL, not the <code>/dev</code> URL. "Anyone" access (not "Anyone with a Google account") is required — otherwise learners who aren't signed in to Google will fail to log results.</div>
+  </div>
+</div>
+
+<!-- STEP 4 -->
+<div class="step-card">
+  <div class="step-header">
+    <div class="step-num">4</div>
+    <div class="step-title">Paste the URL into the training page</div>
+  </div>
+  <div class="step-body">
+    Open <code>payroll-training.html</code> in any text editor and find this line near the top of the <code>&lt;script&gt;</code> block:
+
+<pre><span class="kw">const</span> SHEET_SCRIPT_URL = <span class="str">'PASTE_YOUR_APPS_SCRIPT_URL_HERE'</span>;</pre>
+
+    Replace the placeholder with your URL:
+
+<pre><span class="kw">const</span> SHEET_SCRIPT_URL = <span class="str">'https://script.google.com/macros/s/AKfyc.../exec'</span>;</pre>
+
+    Save the file.
+    <div class="callout"><strong>Done!</strong> Results will now flow automatically into the correct tab — Teleperformance agents go to the Teleperformance tab, TaskUs agents go to the TaskUs tab — the moment they finish any knowledge check.</div>
+  </div>
+</div>
+
+<!-- STEP 5 -->
+<div class="step-card">
+  <div class="step-header">
+    <div class="step-num">5</div>
+    <div class="step-title">Test it</div>
+  </div>
+  <div class="step-body">
+    <ul>
+      <li>Open the training page from Phase 1 (click the Phase 1 card on the hub)</li>
+      <li>Navigate to the last module and click <strong>✓ Knowledge Check</strong></li>
+      <li>Enter a test email, select a site, and complete the quiz</li>
+      <li>Check your Google Sheet — a new row should appear in the matching tab within a few seconds</li>
+    </ul>
+    <div class="warn"><strong>If nothing appears:</strong> The most common cause is deploying with "Anyone with a Google account" instead of "Anyone." If you need to change this, create a <em>new</em> deployment (not an update) and copy the new <code>/exec</code> URL into the training page.</div>
+  </div>
+</div>
+
+<div class="done-box">
+  <h3>✅ Setup Complete</h3>
+  <p>Every completed knowledge check now logs the learner's email, site, phase, score, and pass/fail to the correct tab in your Google Sheet automatically.</p>
+</div>
+
+</body>
+</html>
