@@ -2872,6 +2872,7 @@
             <div class="quiz-site-selector">
               <button class="site-btn" id="quiz-site-tp" onclick="selectSite('p1','Teleperformance')">Teleperformance</button>
               <button class="site-btn" id="quiz-site-tu" onclick="selectSite('p1','TaskUs')">TaskUs</button>
+              <button class="site-btn" id="quiz-site-gu" onclick="selectSite('p1','Gustie')">Gustie</button>
             </div>
           </div>
           <button class="quiz-start-btn" onclick="startQuiz()">Start Quiz →</button>
@@ -2930,6 +2931,7 @@
             <div class="quiz-site-selector">
               <button class="site-btn" id="quiz2-site-tp" onclick="selectSite('p2','Teleperformance')">Teleperformance</button>
               <button class="site-btn" id="quiz2-site-tu" onclick="selectSite('p2','TaskUs')">TaskUs</button>
+              <button class="site-btn" id="quiz2-site-gu" onclick="selectSite('p2','Gustie')">Gustie</button>
             </div>
           </div>
           <button class="quiz-start-btn" onclick="startQuiz2()">Start Knowledge Check →</button>
@@ -2984,6 +2986,7 @@
             <div class="quiz-site-selector">
               <button class="site-btn" id="quiz3-site-tp" onclick="selectSite('p3','Teleperformance')">Teleperformance</button>
               <button class="site-btn" id="quiz3-site-tu" onclick="selectSite('p3','TaskUs')">TaskUs</button>
+              <button class="site-btn" id="quiz3-site-gu" onclick="selectSite('p3','Gustie')">Gustie</button>
             </div>
           </div>
           <button class="quiz-start-btn" onclick="startQuiz3()">Start Knowledge Check →</button>
@@ -3038,6 +3041,7 @@
             <div class="quiz-site-selector">
               <button class="site-btn" id="quiz4-site-tp" onclick="selectSite('p4','Teleperformance')">Teleperformance</button>
               <button class="site-btn" id="quiz4-site-tu" onclick="selectSite('p4','TaskUs')">TaskUs</button>
+              <button class="site-btn" id="quiz4-site-gu" onclick="selectSite('p4','Gustie')">Gustie</button>
             </div>
           </div>
           <button class="quiz-start-btn" onclick="startQuiz4()">Start Knowledge Check →</button>
@@ -3718,19 +3722,24 @@
   let quiz3LearnerSite  = '';
 
   function selectSite(phase, site) {
-    if (phase === 'p1') {
-      quizLearnerSite = site;
-      document.getElementById('quiz-site-tp').classList.toggle('selected', site === 'Teleperformance');
-      document.getElementById('quiz-site-tu').classList.toggle('selected', site === 'TaskUs');
-    } else if (phase === 'p2') {
-      quiz2LearnerSite = site;
-      document.getElementById('quiz2-site-tp').classList.toggle('selected', site === 'Teleperformance');
-      document.getElementById('quiz2-site-tu').classList.toggle('selected', site === 'TaskUs');
-    } else if (phase === 'p3') {
-      quiz3LearnerSite = site;
-      document.getElementById('quiz3-site-tp').classList.toggle('selected', site === 'Teleperformance');
-      document.getElementById('quiz3-site-tu').classList.toggle('selected', site === 'TaskUs');
-    }
+    const configs = {
+      'p1': { varSetter: () => { quizLearnerSite = site; }, tp: 'quiz-site-tp', tu: 'quiz-site-tu', gu: 'quiz-site-gu' },
+      'p2': { varSetter: () => { quiz2LearnerSite = site; }, tp: 'quiz2-site-tp', tu: 'quiz2-site-tu', gu: 'quiz2-site-gu' },
+      'p3': { varSetter: () => { quiz3LearnerSite = site; }, tp: 'quiz3-site-tp', tu: 'quiz3-site-tu', gu: 'quiz3-site-gu' },
+      'p4': { varSetter: () => { quiz4LearnerSite = site; }, tp: 'quiz4-site-tp', tu: 'quiz4-site-tu', gu: 'quiz4-site-gu' },
+    };
+    const cfg = configs[phase];
+    if (!cfg) return;
+    cfg.varSetter();
+    // Clear all, then mark selected
+    [cfg.tp, cfg.tu, cfg.gu].forEach(id => {
+      const el = document.getElementById(id);
+      el.classList.remove('selected');
+      el.style.outline = '';
+    });
+    if (site === 'Teleperformance') document.getElementById(cfg.tp).classList.add('selected');
+    else if (site === 'TaskUs')      document.getElementById(cfg.tu).classList.add('selected');
+    else if (site === 'Gustie')      document.getElementById(cfg.gu).classList.add('selected');
   }
 
   function startQuiz() {
@@ -3740,11 +3749,13 @@
     if (!quizLearnerSite) {
       document.getElementById('quiz-site-tp').style.outline = '2px solid var(--gusto-coral)';
       document.getElementById('quiz-site-tu').style.outline = '2px solid var(--gusto-coral)';
+      document.getElementById('quiz-site-gu').style.outline = '2px solid var(--gusto-coral)';
       return;
     }
     emailInput.classList.remove('error');
     document.getElementById('quiz-site-tp').style.outline = '';
     document.getElementById('quiz-site-tu').style.outline = '';
+    document.getElementById('quiz-site-gu').style.outline = '';
     quizLearnerEmail = email;
     quizCurrent = 0;
     quizAnswers = new Array(QUIZ_QUESTIONS.length).fill(null);
@@ -3764,11 +3775,13 @@
     if (!quiz2LearnerSite) {
       document.getElementById('quiz2-site-tp').style.outline = '2px solid var(--gusto-coral)';
       document.getElementById('quiz2-site-tu').style.outline = '2px solid var(--gusto-coral)';
+      document.getElementById('quiz2-site-gu').style.outline = '2px solid var(--gusto-coral)';
       return;
     }
     emailInput.classList.remove('error');
     document.getElementById('quiz2-site-tp').style.outline = '';
     document.getElementById('quiz2-site-tu').style.outline = '';
+    document.getElementById('quiz2-site-gu').style.outline = '';
     quiz2LearnerEmail = email;
     quiz2Current = 0;
     quiz2Answers = new Array(QUIZ_QUESTIONS_P2.length).fill(null);
@@ -3787,7 +3800,7 @@
       passed: passed ? 'Pass' : 'Fail', timestamp: new Date().toISOString() });
     const url = SHEET_SCRIPT_URL + '?' + params.toString();
     console.log('[Quiz] Sending to sheet:', url);
-    fetch(url, { mode: 'no-cors', credentials: 'include' })
+    fetch(url, { mode: 'no-cors' })
       .then(() => console.log('[Quiz] Sheet request sent successfully'))
       .catch(err => console.error('[Quiz] Sheet request failed:', err));
   }
@@ -4075,11 +4088,13 @@
     if (!quiz3LearnerSite) {
       document.getElementById('quiz3-site-tp').style.outline = '2px solid var(--gusto-coral)';
       document.getElementById('quiz3-site-tu').style.outline = '2px solid var(--gusto-coral)';
+      document.getElementById('quiz3-site-gu').style.outline = '2px solid var(--gusto-coral)';
       return;
     }
     emailInput.classList.remove('error');
     document.getElementById('quiz3-site-tp').style.outline = '';
     document.getElementById('quiz3-site-tu').style.outline = '';
+    document.getElementById('quiz3-site-gu').style.outline = '';
     quiz3LearnerEmail = email;
     quiz3Current = 0;
     quiz3Answers = new Array(QUIZ_QUESTIONS_P3.length).fill(null);
@@ -4325,11 +4340,13 @@
     if (!quiz4LearnerSite) {
       document.getElementById('quiz4-site-tp').style.outline = '2px solid var(--gusto-coral)';
       document.getElementById('quiz4-site-tu').style.outline = '2px solid var(--gusto-coral)';
+      document.getElementById('quiz4-site-gu').style.outline = '2px solid var(--gusto-coral)';
       return;
     }
     emailInput.classList.remove('error');
     document.getElementById('quiz4-site-tp').style.outline = '';
     document.getElementById('quiz4-site-tu').style.outline = '';
+    document.getElementById('quiz4-site-gu').style.outline = '';
     quiz4LearnerEmail = email;
     quiz4Current = 0;
     quiz4Answers = new Array(QUIZ_QUESTIONS_P4.length).fill(null);
@@ -4413,6 +4430,7 @@
     const hubBtn = document.getElementById('quiz4-hub-btn');
     if (passed && hubBtn) hubBtn.style.display = '';
     document.getElementById('quiz4-results').classList.add('show');
+    sendToSheet('Phase 4', quiz4LearnerEmail, quiz4LearnerSite, score, QUIZ_QUESTIONS_P4.length, passed);
   }
 
   function quiz4Restart() {
@@ -4428,16 +4446,7 @@
     quiz4Render();
   }
 
-  function selectSite(phase, site) {
-    if (phase === 'p4') {
-      quiz4LearnerSite = site;
-      document.getElementById('quiz4-site-tp').classList.toggle('selected', site === 'Teleperformance');
-      document.getElementById('quiz4-site-tu').classList.toggle('selected', site === 'TaskUs');
-      document.getElementById('quiz4-site-tp').style.outline = '';
-      document.getElementById('quiz4-site-tu').style.outline = '';
-      return;
-    }
-  }
+
 
   function quiz3Restart() {
     quiz3Current = 0;
