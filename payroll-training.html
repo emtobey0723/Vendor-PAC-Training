@@ -3711,8 +3711,8 @@
     if (_navTtl) _navTtl.textContent = '';
   }
 
-  // ── Google Sheets logging ──────────────────
-  const SHEET_SCRIPT_URL = 'https://script.google.com/a/macros/gusto.com/s/AKfycbxUc32SqyP_jzp7hQOfVP0MEnZ94mda7bC-fRYncFdNzUeU_TRaeA5GTrm4wtiCFYkZbQ/exec';
+  // ── Google Forms logging ──────────────────
+  const FORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLScVwIPk2mRoH01WzqdJSZAcke6UWNbmhooGDlo4nV8_jLkW5A/formResponse';
 
   let quizLearnerEmail = '';
   let quizLearnerSite  = '';
@@ -3795,16 +3795,19 @@
   }
 
   function sendToSheet(phase, email, site, score, total, passed) {
-    if (!SHEET_SCRIPT_URL || SHEET_SCRIPT_URL.includes('PASTE_YOUR')) return;
-    const params = new URLSearchParams({ phase, email, site, score, total,
-      passed: passed ? 'Pass' : 'Fail', timestamp: new Date().toISOString() });
-    const url = SHEET_SCRIPT_URL + '?' + params.toString();
-    console.log('[Quiz] Sending to sheet:', url);
-    // Image beacon — most reliable cross-origin method; bypasses CORS entirely
-    const beacon = new Image();
-    beacon.onload  = () => console.log('[Quiz] Sheet beacon loaded (script responded)');
-    beacon.onerror = () => console.log('[Quiz] Sheet beacon fired (no-response is normal for Apps Script)');
-    beacon.src = url;
+    const body = new URLSearchParams({
+      'entry.682448327':  phase,
+      'entry.1161067834': email,
+      'entry.2081167919': site,
+      'entry.2125355118': String(score),
+      'entry.739909033':  String(total),
+      'entry.1491653621': passed ? 'Pass' : 'Fail',
+      'entry.633195284':  new Date().toISOString()
+    });
+    console.log('[Quiz] Submitting to Google Form:', phase, email, site, score + '/' + total);
+    fetch(FORM_URL, { method: 'POST', mode: 'no-cors', body })
+      .then(() => console.log('[Quiz] Form submitted successfully'))
+      .catch(err => console.error('[Quiz] Form submission failed:', err));
   }
 
   // ══════════════════════════════════════════════
