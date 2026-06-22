@@ -379,6 +379,7 @@
     .cal-wk-tag.blend { background: #EDE8F8;              color: #6B3FA0;       }
     .cal-wk-tag.p3    { background: var(--yellow-light); color: var(--yellow); }
     .cal-wk-tag.p4    { background: var(--purple-light); color: var(--purple); }
+    .cal-wk-tag.live  { background: #E6F9F1;              color: #15976A;       }
 
     /* Grid wrapper */
     .cal-grid {
@@ -466,6 +467,7 @@
       );
       color: #2D5A9E;
     }
+    .cal-blk.live { background: #E6F9F1; color: #15976A; border-left: 3px solid #15976A; border-top: 1px solid #A8EDCF; }
 
     /* Phase-coloured left accent on Monday training block */
     .cal-blk.tr-p1 { border-left: 3px solid var(--coral);  }
@@ -530,11 +532,11 @@
 <div class="page-hero">
   <div class="eyebrow">Training Plan</div>
   <h1>Estimated Training Timeline</h1>
-  <p>Content time + 1 hr buffer + 1 hr Q&amp;A per phase. Phases 1 &amp; 2 include a week of nesting on those case reasons.</p>
+  <p>Phases 1–4 are covered across 2 weeks of morning training + afternoon email nesting, followed by 1 week of live channel nesting.</p>
   <div class="summary-stats">
     <div class="stat"><div class="stat-num">4</div><div class="stat-label">Phases</div></div>
     <div class="stat"><div class="stat-num">~16 hrs</div><div class="stat-label">Total Structured Time</div></div>
-    <div class="stat"><div class="stat-num">2 wks</div><div class="stat-label">Nesting (Phases 1 &amp; 2)</div></div>
+    <div class="stat"><div class="stat-num">3 wks</div><div class="stat-label">Total Training Duration</div></div>
   </div>
 </div>
 
@@ -551,14 +553,12 @@
             <div class="tl-card-title">Foundations</div>
             <div class="tl-card-subtitle">Payroll Reversal · Auto Wage Correction · Exempt Taxes</div>
           </div>
-          <div class="tl-total-badge">3.5 hrs + 1 wk nesting</div>
+          <div class="tl-total-badge">3.5 hrs structured</div>
         </div>
         <div class="tl-bars">
           <div class="tl-bar-item"><div class="tl-bar-dot" style="background:var(--coral)"></div><strong>1.5 hrs</strong>&nbsp;content (3 case reasons)</div>
           <div class="tl-bar-item"><div class="tl-bar-dot" style="background:#ccc"></div><strong>1 hr</strong>&nbsp;buffer</div>
           <div class="tl-bar-item"><div class="tl-bar-dot" style="background:#ccc"></div><strong>1 hr</strong>&nbsp;Q&amp;A</div>
-          <div class="tl-nesting-divider"></div>
-          <div class="tl-bar-item nesting"><div class="tl-bar-dot" style="background:#3D5AF1"></div><strong>1 week</strong>&nbsp;nesting on Phase 1 case reasons</div>
         </div>
       </div>
     </div>
@@ -573,14 +573,12 @@
             <div class="tl-card-title">External Payroll &amp; Reconciliation</div>
             <div class="tl-card-subtitle">Non-Gusto Payroll · Tax Reconciliation Payroll</div>
           </div>
-          <div class="tl-total-badge">~3 hrs 15 min + 1 wk nesting</div>
+          <div class="tl-total-badge">~3 hrs 15 min structured</div>
         </div>
         <div class="tl-bars">
           <div class="tl-bar-item"><div class="tl-bar-dot" style="background:var(--teal)"></div><strong>1 hr 15 min</strong>&nbsp;content (2 case reasons + LearnUpon course)</div>
           <div class="tl-bar-item"><div class="tl-bar-dot" style="background:#ccc"></div><strong>1 hr</strong>&nbsp;buffer</div>
           <div class="tl-bar-item"><div class="tl-bar-dot" style="background:#ccc"></div><strong>1 hr</strong>&nbsp;Q&amp;A</div>
-          <div class="tl-nesting-divider"></div>
-          <div class="tl-bar-item nesting"><div class="tl-bar-dot" style="background:#3D5AF1"></div><strong>1 week</strong>&nbsp;nesting on Phase 2 case reasons</div>
         </div>
       </div>
     </div>
@@ -631,12 +629,13 @@
   <!-- CALENDAR -->
   <div class="cal-section">
     <div class="cal-heading">Training Calendar</div>
-    <div class="cal-sub">Mondays are structured training days (training · buffer · Q&amp;A) with remaining time for nesting.<br>Tuesday–Friday each week are fully dedicated to nesting on that phase's case reasons.</div>
+    <div class="cal-sub">Weeks 1 &amp; 2: mornings are dedicated to training (content · buffer · Q&amp;A); afternoons are email nesting on those case reasons.<br>Week 3 is fully dedicated to live channel nesting.</div>
 
+    <!-- WEEK 1 -->
     <div class="cal-week">
       <div class="cal-week-label">
         <span class="cal-wk-num">Week 1</span>
-        <span class="cal-wk-tag p1">Phase 1 — Foundations</span>
+        <span class="cal-wk-tag p1">Phase 1 &amp; 2 — Foundations + External Payroll</span>
       </div>
       <div class="cal-grid">
         <div class="cal-hdr">
@@ -648,65 +647,73 @@
         </div>
         <div class="cal-body">
           <div class="cal-day">
-            <div class="cal-blk tr-p1" style="flex:1.5">
+            <div class="cal-blk tr-p1 fill">
               <span class="cb-icon">📚</span>
               <span class="cb-label">Training</span>
-              <span class="cb-time">1.5 hrs · 3 case reasons</span>
+              <span class="cb-sub">AM · Phase 1</span>
             </div>
-            <div class="cal-blk buf" style="flex:1">
-              <span class="cb-label">🛡 Buffer</span>
-              <span class="cb-time">1 hr</span>
-            </div>
-            <div class="cal-blk qa" style="flex:1">
-              <span class="cb-label">💬 Q&amp;A</span>
-              <span class="cb-time">1 hr</span>
-            </div>
-            <div class="cal-blk nest" style="flex:4.5">
-              <span class="cb-icon">🔄</span>
-              <span class="cb-label">Nesting</span>
-              <span class="cb-time">4.5 hrs remaining</span>
+            <div class="cal-blk nest fill">
+              <span class="cb-icon">✉️</span>
+              <span class="cb-label">Email Nesting</span>
+              <span class="cb-sub">PM</span>
             </div>
           </div>
           <div class="cal-day">
+            <div class="cal-blk tr-p1 fill">
+              <span class="cb-icon">📚</span>
+              <span class="cb-label">Training</span>
+              <span class="cb-sub">AM · Phase 1</span>
+            </div>
             <div class="cal-blk nest fill">
-              <span class="cb-icon">🔄</span>
-              <span class="cb-label">Nesting</span>
-              <span class="cb-sub">Phase 1</span>
-              <span class="cb-sub">case reasons</span>
+              <span class="cb-icon">✉️</span>
+              <span class="cb-label">Email Nesting</span>
+              <span class="cb-sub">PM</span>
             </div>
           </div>
           <div class="cal-day">
+            <div class="cal-blk tr-p2 fill">
+              <span class="cb-icon">📚</span>
+              <span class="cb-label">Training</span>
+              <span class="cb-sub">AM · Phase 2</span>
+            </div>
             <div class="cal-blk nest fill">
-              <span class="cb-icon">🔄</span>
-              <span class="cb-label">Nesting</span>
-              <span class="cb-sub">Phase 1</span>
-              <span class="cb-sub">case reasons</span>
+              <span class="cb-icon">✉️</span>
+              <span class="cb-label">Email Nesting</span>
+              <span class="cb-sub">PM</span>
             </div>
           </div>
           <div class="cal-day">
+            <div class="cal-blk tr-p2 fill">
+              <span class="cb-icon">📚</span>
+              <span class="cb-label">Training</span>
+              <span class="cb-sub">AM · Phase 2</span>
+            </div>
             <div class="cal-blk nest fill">
-              <span class="cb-icon">🔄</span>
-              <span class="cb-label">Nesting</span>
-              <span class="cb-sub">Phase 1</span>
-              <span class="cb-sub">case reasons</span>
+              <span class="cb-icon">✉️</span>
+              <span class="cb-label">Email Nesting</span>
+              <span class="cb-sub">PM</span>
             </div>
           </div>
           <div class="cal-day">
+            <div class="cal-blk buf fill">
+              <span class="cb-label">🛡 Buffer / Q&amp;A</span>
+              <span class="cb-sub">AM</span>
+            </div>
             <div class="cal-blk nest fill">
-              <span class="cb-icon">🔄</span>
-              <span class="cb-label">Nesting</span>
-              <span class="cb-sub">Phase 1</span>
-              <span class="cb-sub">case reasons</span>
+              <span class="cb-icon">✉️</span>
+              <span class="cb-label">Email Nesting</span>
+              <span class="cb-sub">PM</span>
             </div>
           </div>
         </div>
       </div>
     </div>
 
+    <!-- WEEK 2 -->
     <div class="cal-week">
       <div class="cal-week-label">
         <span class="cal-wk-num">Week 2</span>
-        <span class="cal-wk-tag p2">Phase 2 — External Payroll &amp; Reconciliation</span>
+        <span class="cal-wk-tag p3">Phase 3 &amp; 4 — Workers' Comp, FEIN &amp; Advanced Compliance</span>
       </div>
       <div class="cal-grid">
         <div class="cal-hdr">
@@ -718,65 +725,73 @@
         </div>
         <div class="cal-body">
           <div class="cal-day">
-            <div class="cal-blk tr-p2" style="flex:1.25">
+            <div class="cal-blk tr-p3 fill">
               <span class="cb-icon">📚</span>
               <span class="cb-label">Training</span>
-              <span class="cb-time">1 hr 15 min · 2 case reasons</span>
+              <span class="cb-sub">AM · Phase 3</span>
             </div>
-            <div class="cal-blk buf" style="flex:1">
-              <span class="cb-label">🛡 Buffer</span>
-              <span class="cb-time">1 hr</span>
-            </div>
-            <div class="cal-blk qa" style="flex:1">
-              <span class="cb-label">💬 Q&amp;A</span>
-              <span class="cb-time">1 hr</span>
-            </div>
-            <div class="cal-blk nest" style="flex:4.75">
-              <span class="cb-icon">🔄</span>
-              <span class="cb-label">Nesting</span>
-              <span class="cb-time">4 hrs 45 min remaining</span>
+            <div class="cal-blk nest fill">
+              <span class="cb-icon">✉️</span>
+              <span class="cb-label">Email Nesting</span>
+              <span class="cb-sub">PM</span>
             </div>
           </div>
           <div class="cal-day">
-            <div class="cal-blk blend fill">
-              <span class="cb-icon">🔄</span>
-              <span class="cb-label">Blended Nesting</span>
-              <span class="cb-sub">Phase 1 &amp; 2</span>
-              <span class="cb-sub">case reasons</span>
+            <div class="cal-blk tr-p3 fill">
+              <span class="cb-icon">📚</span>
+              <span class="cb-label">Training</span>
+              <span class="cb-sub">AM · Phase 3</span>
+            </div>
+            <div class="cal-blk nest fill">
+              <span class="cb-icon">✉️</span>
+              <span class="cb-label">Email Nesting</span>
+              <span class="cb-sub">PM</span>
             </div>
           </div>
           <div class="cal-day">
-            <div class="cal-blk blend fill">
-              <span class="cb-icon">🔄</span>
-              <span class="cb-label">Blended Nesting</span>
-              <span class="cb-sub">Phase 1 &amp; 2</span>
-              <span class="cb-sub">case reasons</span>
+            <div class="cal-blk tr-p4 fill">
+              <span class="cb-icon">📚</span>
+              <span class="cb-label">Training</span>
+              <span class="cb-sub">AM · Phase 4</span>
+            </div>
+            <div class="cal-blk nest fill">
+              <span class="cb-icon">✉️</span>
+              <span class="cb-label">Email Nesting</span>
+              <span class="cb-sub">PM</span>
             </div>
           </div>
           <div class="cal-day">
-            <div class="cal-blk blend fill">
-              <span class="cb-icon">🔄</span>
-              <span class="cb-label">Blended Nesting</span>
-              <span class="cb-sub">Phase 1 &amp; 2</span>
-              <span class="cb-sub">case reasons</span>
+            <div class="cal-blk tr-p4 fill">
+              <span class="cb-icon">📚</span>
+              <span class="cb-label">Training</span>
+              <span class="cb-sub">AM · Phase 4</span>
+            </div>
+            <div class="cal-blk nest fill">
+              <span class="cb-icon">✉️</span>
+              <span class="cb-label">Email Nesting</span>
+              <span class="cb-sub">PM</span>
             </div>
           </div>
           <div class="cal-day">
-            <div class="cal-blk blend fill">
-              <span class="cb-icon">🔄</span>
-              <span class="cb-label">Blended Nesting</span>
-              <span class="cb-sub">Phase 1 &amp; 2</span>
-              <span class="cb-sub">case reasons</span>
+            <div class="cal-blk buf fill">
+              <span class="cb-label">🛡 Buffer / Q&amp;A</span>
+              <span class="cb-sub">AM</span>
+            </div>
+            <div class="cal-blk nest fill">
+              <span class="cb-icon">✉️</span>
+              <span class="cb-label">Email Nesting</span>
+              <span class="cb-sub">PM</span>
             </div>
           </div>
         </div>
       </div>
     </div>
 
+    <!-- WEEK 3 -->
     <div class="cal-week">
       <div class="cal-week-label">
         <span class="cal-wk-num">Week 3</span>
-        <span class="cal-wk-tag p3">Phase 3 — Workers' Comp &amp; FEIN Changes</span>
+        <span class="cal-wk-tag live">Live Channel Nesting</span>
       </div>
       <div class="cal-grid">
         <div class="cal-hdr">
@@ -788,125 +803,38 @@
         </div>
         <div class="cal-body">
           <div class="cal-day">
-            <div class="cal-blk tr-p3" style="flex:2">
-              <span class="cb-icon">📚</span>
-              <span class="cb-label">Training</span>
-              <span class="cb-time">2 hrs · incl. 1h 46m FEIN videos</span>
-            </div>
-            <div class="cal-blk buf" style="flex:1">
-              <span class="cb-label">🛡 Buffer</span>
-              <span class="cb-time">1 hr</span>
-            </div>
-            <div class="cal-blk qa" style="flex:1">
-              <span class="cb-label">💬 Q&amp;A</span>
-              <span class="cb-time">1 hr</span>
-            </div>
-            <div class="cal-blk nest" style="flex:4">
-              <span class="cb-icon">🔄</span>
-              <span class="cb-label">Nesting</span>
-              <span class="cb-time">4 hrs remaining</span>
+            <div class="cal-blk live fill">
+              <span class="cb-icon">🎧</span>
+              <span class="cb-label">Live Channel</span>
+              <span class="cb-sub">Nesting</span>
             </div>
           </div>
           <div class="cal-day">
-            <div class="cal-blk nest fill">
-              <span class="cb-icon">🔄</span>
-              <span class="cb-label">Nesting</span>
-              <span class="cb-sub">Phase 3</span>
-              <span class="cb-sub">case reasons</span>
+            <div class="cal-blk live fill">
+              <span class="cb-icon">🎧</span>
+              <span class="cb-label">Live Channel</span>
+              <span class="cb-sub">Nesting</span>
             </div>
           </div>
           <div class="cal-day">
-            <div class="cal-blk nest fill">
-              <span class="cb-icon">🔄</span>
-              <span class="cb-label">Nesting</span>
-              <span class="cb-sub">Phase 3</span>
-              <span class="cb-sub">case reasons</span>
+            <div class="cal-blk live fill">
+              <span class="cb-icon">🎧</span>
+              <span class="cb-label">Live Channel</span>
+              <span class="cb-sub">Nesting</span>
             </div>
           </div>
           <div class="cal-day">
-            <div class="cal-blk nest fill">
-              <span class="cb-icon">🔄</span>
-              <span class="cb-label">Nesting</span>
-              <span class="cb-sub">Phase 3</span>
-              <span class="cb-sub">case reasons</span>
+            <div class="cal-blk live fill">
+              <span class="cb-icon">🎧</span>
+              <span class="cb-label">Live Channel</span>
+              <span class="cb-sub">Nesting</span>
             </div>
           </div>
           <div class="cal-day">
-            <div class="cal-blk nest fill">
-              <span class="cb-icon">🔄</span>
-              <span class="cb-label">Nesting</span>
-              <span class="cb-sub">Phase 3</span>
-              <span class="cb-sub">case reasons</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="cal-week">
-      <div class="cal-week-label">
-        <span class="cal-wk-num">Week 4</span>
-        <span class="cal-wk-tag p4">Phase 4 — Advanced Compliance</span>
-      </div>
-      <div class="cal-grid">
-        <div class="cal-hdr">
-          <div class="cal-hd">Mon</div>
-          <div class="cal-hd">Tue</div>
-          <div class="cal-hd">Wed</div>
-          <div class="cal-hd">Thu</div>
-          <div class="cal-hd">Fri</div>
-        </div>
-        <div class="cal-body">
-          <div class="cal-day">
-            <div class="cal-blk tr-p4" style="flex:2.5">
-              <span class="cb-icon">📚</span>
-              <span class="cb-label">Training</span>
-              <span class="cb-time">2 hrs 30 min · 4 case reasons</span>
-            </div>
-            <div class="cal-blk buf" style="flex:1">
-              <span class="cb-label">🛡 Buffer</span>
-              <span class="cb-time">1 hr</span>
-            </div>
-            <div class="cal-blk qa" style="flex:1">
-              <span class="cb-label">💬 Q&amp;A</span>
-              <span class="cb-time">1 hr</span>
-            </div>
-            <div class="cal-blk nest" style="flex:3.5">
-              <span class="cb-icon">🔄</span>
-              <span class="cb-label">Nesting</span>
-              <span class="cb-time">3 hrs 30 min remaining</span>
-            </div>
-          </div>
-          <div class="cal-day">
-            <div class="cal-blk nest fill">
-              <span class="cb-icon">🔄</span>
-              <span class="cb-label">Nesting</span>
-              <span class="cb-sub">Phase 4</span>
-              <span class="cb-sub">case reasons</span>
-            </div>
-          </div>
-          <div class="cal-day">
-            <div class="cal-blk nest fill">
-              <span class="cb-icon">🔄</span>
-              <span class="cb-label">Nesting</span>
-              <span class="cb-sub">Phase 4</span>
-              <span class="cb-sub">case reasons</span>
-            </div>
-          </div>
-          <div class="cal-day">
-            <div class="cal-blk nest fill">
-              <span class="cb-icon">🔄</span>
-              <span class="cb-label">Nesting</span>
-              <span class="cb-sub">Phase 4</span>
-              <span class="cb-sub">case reasons</span>
-            </div>
-          </div>
-          <div class="cal-day">
-            <div class="cal-blk nest fill">
-              <span class="cb-icon">🔄</span>
-              <span class="cb-label">Nesting</span>
-              <span class="cb-sub">Phase 4</span>
-              <span class="cb-sub">case reasons</span>
+            <div class="cal-blk live fill">
+              <span class="cb-icon">🎧</span>
+              <span class="cb-label">Live Channel</span>
+              <span class="cb-sub">Nesting</span>
             </div>
           </div>
         </div>
@@ -918,7 +846,7 @@
   <div class="tl-total-row">
     <span class="total-label">Total structured time</span>
     <span class="total-value">~16 hrs</span>
-    <span class="total-nesting">+ 2 weeks nesting</span>
+    <span class="total-nesting">+ 3 weeks total (email + live channel nesting)</span>
   </div>
 </div>
 
